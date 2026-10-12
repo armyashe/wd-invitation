@@ -777,7 +777,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: false }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="absolute top-20 left-0 right-0 flex items-center justify-center gap-2 text-white text-sm font-wedding tracking-[0.2em] drop-shadow-md"
+              className="absolute top-20 left-0 right-0 flex items-center justify-center gap-2 text-white text-lg font-wedding tracking-[0.2em] drop-shadow-md"
             >
               <span>🌿</span>
               <span className="font-bold">WEDDING INVITATION</span>
@@ -790,7 +790,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute top-[280px] left-6 right-6 sm:left-8 sm:right-8 bg-black/45 backdrop-blur-md rounded-xl p-4 sm:p-5 text-white border border-white/15 shadow-2xl"
+              className="absolute top-[280px] left-6 right-6 sm:left-8 sm:right-8 bg-black/30 backdrop-blur-xs rounded-xl p-4 sm:p-5 text-white border border-white/15 shadow-2xl"
             >
               <div className="grid grid-cols-7 gap-y-2.5 text-center text-sm font-sans">
                 {/* Hàng tiêu đề thứ trong tuần: CN, T2, T3, T4, T5, T6, T7 */}
