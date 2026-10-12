@@ -337,7 +337,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false }}
                   transition={{ duration: 0.7 }}
-                  className="text-[22px] font-wedding tracking-wider drop-shadow-md"
+                  className="text-[18px] font-wedding tracking-wider drop-shadow-md"
                 >
                   Right love | Right reason | Right for you
                 </motion.h3>
@@ -346,7 +346,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false }}
                   transition={{ duration: 0.7, delay: 0.1 }}
-                  className="text-[14px] leading-relaxed max-w-sm font-medium text-white/95 drop-shadow"
+                  className="text-[14px] font-wedding leading-relaxed max-w-sm font-medium text-white/95 drop-shadow"
                 >
                   To Our Family And Friends, Thank You For Celebrating Our Special Day, Supporting Us And Sharing Our Love.
                 </motion.p>
@@ -439,7 +439,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.8 }}
-            className="text-[16px] font-wedding font-semibold text-stone-800 text-center leading-relaxed"
+            className="text-[13px] font-wedding font-semibold text-stone-800 text-center leading-relaxed"
           >
             Trước đây cứ nghĩ đám cưới chỉ là một thông báo chính thức,
             <br />
@@ -464,7 +464,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             2026.12.06
           </motion.div>
 
-          <p className="text-[20px] font-wedding font-medium text-stone-900">
+          <p className="text-[17px] font-wedding font-medium text-stone-900">
             Chúng mình, hẹn gặp nhau trong ngày cưới nhé!
           </p>
         </motion.section>
@@ -700,20 +700,6 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             </motion.div>
           </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.8 }}
-            className="text-[17px] text-center leading-relaxed text-stone-700 pt-2"
-          >
-            I love three things in this world.，
-            <br />
-            Sun moon and you. Sun for morning moon for night,
-            <br />
-            and you forever.
-          </motion.p>
-
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -792,6 +778,15 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
               className="absolute top-[280px] left-6 right-6 sm:left-8 sm:right-8 bg-black/30 backdrop-blur-xs rounded-xl p-4 sm:p-5 text-white border border-white/15 shadow-2xl"
             >
+              {/* Hàng đánh dấu tháng năm */}
+              <div className="flex items-center justify-center gap-2.5 pb-2.5 mb-2.5 border-b border-white/20">
+                <span className="h-[1px] w-6 bg-white/30" />
+                <span className="font-wedding font-bold text-base sm:text-lg tracking-widest uppercase text-white drop-shadow-sm">
+                  Tháng {weddingMonth + 1} / {weddingYear}
+                </span>
+                <span className="h-[1px] w-6 bg-white/30" />
+              </div>
+
               <div className="grid grid-cols-7 gap-y-2.5 text-center text-sm font-sans">
                 {/* Hàng tiêu đề thứ trong tuần: CN, T2, T3, T4, T5, T6, T7 */}
                 {WEEKDAYS.map((dow) => (
@@ -979,7 +974,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.75 }}
-            className="text-[17px] text-center leading-relaxed text-stone-800"
+            className="font-wedding text-[15px] text-center leading-relaxed text-stone-800"
           >
             Em tựa núi sông, băng qua rừng biếc,
             <br />
@@ -1090,77 +1085,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
 
         {/* ----------------- SECTION 10: RSVP & THANK YOU ----------------- */}
         <section className="px-6 py-8 bg-white space-y-6">
-          {/* RSVP Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 35, scale: 0.97 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.85 }}
-            className="bg-white rounded-xl shadow-lg border border-stone-200 p-6 space-y-4"
-          >
-            <h3 className="text-center font-bold text-[18px] text-stone-800">
-              Xác nhận tham dự
-            </h3>
 
-            <form onSubmit={handleRsvpSubmit} className="space-y-4 text-sm">
-              <div>
-                <label className="block text-stone-700 mb-1 text-xs font-medium">Họ và tên</label>
-                <input
-                  type="text"
-                  value={rsvpName}
-                  onChange={(e) => setRsvpName(e.target.value)}
-                  placeholder="Nhập tên của bạn"
-                  className="w-full px-3 py-2 border border-stone-200 rounded text-xs focus:outline-none focus:border-stone-500 transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-stone-700 mb-1 text-xs font-medium">Bạn sẽ tham dự chứ?</label>
-                <div className="space-y-2 text-xs">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="attendance"
-                      checked={rsvpAttendance === 'yes'}
-                      onChange={() => setRsvpAttendance('yes')}
-                      className="accent-[#3a9bff]"
-                    />
-                    <span>Có, tôi sẽ tham dự</span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="attendance"
-                      checked={rsvpAttendance === 'no'}
-                      onChange={() => setRsvpAttendance('no')}
-                      className="accent-[#3a9bff]"
-                    />
-                    <span>Tôi bận, rất tiếc không thể tham dự</span>
-                  </label>
-                </div>
-              </div>
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="submit"
-                className="w-full py-2 bg-[#5c5c5c] hover:bg-[#434343] text-white text-xs font-semibold rounded transition-colors shadow active:scale-95"
-              >
-                Gửi xác nhận
-              </motion.button>
-
-              {rsvpSubmitted && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="p-2 bg-emerald-50 text-emerald-700 text-xs text-center rounded border border-emerald-200"
-                >
-                  Cảm ơn bạn! Xác nhận tham dự đã được gửi thành công.
-                </motion.div>
-              )}
-            </form>
-          </motion.div>
 
           {/* Cute Couple Drawing Illustration */}
           <motion.div
