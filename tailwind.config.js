@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+        'display-wedding': ['"Instrument Serif"', 'Georgia', 'serif'],
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       colors: {

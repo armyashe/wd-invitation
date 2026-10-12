@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import WeddingPage from './components/WeddingPage';
 
 export default function App() {
+  const [currentPage, setCurrentPage] = useState<'hero' | 'wedding'>('hero');
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
+    if (currentPage !== 'hero') return;
+
     const video = videoRef.current;
     if (!video) return;
 
@@ -59,7 +62,21 @@ export default function App() {
       cancelAnimationFrame(animationFrameId);
       video.removeEventListener('ended', handleEnded);
     };
-  }, []);
+  }, [currentPage]);
+
+  const handleOpenInvitation = () => {
+    setCurrentPage('wedding');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const handleBackToHero = () => {
+    setCurrentPage('hero');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  if (currentPage === 'wedding') {
+    return <WeddingPage onBackToTech={handleBackToHero} />;
+  }
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white text-black font-sans selection:bg-black selection:text-white">
@@ -88,7 +105,7 @@ export default function App() {
 
       {/* Navigation Bar (z-10) */}
       <header className="relative z-10 w-full">
-        <nav className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
+        <nav className="flex items-center px-8 py-6 max-w-7xl mx-auto">
           {/* Logo */}
           <a
             href="#"
@@ -96,48 +113,6 @@ export default function App() {
           >
             L&amp;N
           </a>
-
-          {/* Menu items */}
-          <div className="hidden md:flex items-center space-x-8 text-sm">
-            <a
-              href="#cau-chuyen"
-              className="text-[#000000] font-medium transition-colors hover:opacity-80"
-            >
-              Câu chuyện
-            </a>
-            <a
-              href="#dia-diem"
-              className="text-[#6F6F6F] transition-colors hover:text-[#000000]"
-            >
-              Địa điểm
-            </a>
-            <a
-              href="#lich-trinh"
-              className="text-[#6F6F6F] transition-colors hover:text-[#000000]"
-            >
-              Lịch trình
-            </a>
-            <a
-              href="#album-anh"
-              className="text-[#6F6F6F] transition-colors hover:text-[#000000]"
-            >
-              Album ảnh
-            </a>
-            <a
-              href="#gui-loi-chuc"
-              className="text-[#6F6F6F] transition-colors hover:text-[#000000]"
-            >
-              Gửi lời chúc
-            </a>
-          </div>
-
-          {/* Nav CTA button */}
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="rounded-full px-6 py-2.5 text-sm bg-[#000000] text-white hover:scale-[1.03] transition-transform duration-200 shadow-sm active:scale-95"
-          >
-            Mở thiệp mời
-          </button>
         </nav>
       </header>
 
@@ -163,73 +138,12 @@ export default function App() {
 
         {/* Hero CTA Button */}
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleOpenInvitation}
           className="rounded-full px-14 py-5 text-base mt-12 bg-[#000000] text-[#FFFFFF] hover:scale-[1.03] transition-transform duration-200 animate-fade-rise-delay-2 shadow-lg hover:shadow-xl active:scale-95"
         >
           Mở thiệp mời
         </button>
       </main>
-
-      {/* Invitation Modal */}
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 transition-all duration-300 animate-fade-rise"
-          onClick={() => setIsModalOpen(false)}
-        >
-          <div
-            className="relative w-full max-w-md bg-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-black/5 text-center flex flex-col items-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-5 right-5 text-gray-400 hover:text-black transition-colors w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-lg"
-              aria-label="Đóng thiệp"
-            >
-              ✕
-            </button>
-
-            {/* Monogram */}
-            <div className="font-serif text-4xl text-black tracking-wider mb-2">
-              L &amp; N
-            </div>
-            <div className="text-xs uppercase tracking-[0.25em] text-[#6F6F6F] mb-6">
-              Save The Date
-            </div>
-
-            <div className="w-12 h-[1px] bg-black/10 mb-6" />
-
-            <h3 className="font-serif text-2xl text-black mb-2">
-              Lâm &amp; Ngân
-            </h3>
-            <p className="text-sm text-[#6F6F6F] leading-relaxed mb-6">
-              Thân mời bạn và người thương cùng đến tham dự lễ thành hôn ấm cúng của chúng mình.
-            </p>
-
-            <div className="bg-[#f9f9f9] rounded-2xl p-5 w-full mb-6 border border-black/5 text-left space-y-3">
-              <div className="flex items-center justify-between text-xs text-[#6F6F6F]">
-                <span>NGÀY CHUNG ĐÔI</span>
-                <span className="font-medium text-black">Chủ Nhật, 28.11.2026</span>
-              </div>
-              <div className="flex items-center justify-between text-xs text-[#6F6F6F]">
-                <span>THỜI GIAN</span>
-                <span className="font-medium text-black">17:30</span>
-              </div>
-              <div className="flex items-center justify-between text-xs text-[#6F6F6F]">
-                <span>ĐỊA ĐIỂM</span>
-                <span className="font-medium text-black">Gem Center, TP. Hồ Chí Minh</span>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="w-full rounded-full py-3.5 bg-black text-white text-sm hover:scale-[1.02] transition-transform duration-200"
-            >
-              Xác nhận tham dự
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

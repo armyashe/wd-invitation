@@ -9,11 +9,67 @@
   html, body {
     margin: 0;
     padding: 0;
-    background-color: #ffffff;
-    color: #000000;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .font-wedding {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  }
+
+  .font-display-wedding {
+    font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  }
+
+  .font-script {
+    font-family: 'Alex Brush', 'Dancing Script', cursive;
+  }
+}
+
+/* Custom background glow and grid styles */
+.stellar-radial-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12) 0%, rgba(99, 102, 241, 0.05) 35%, transparent 70%);
+}
+
+.stellar-grid {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.cosmic-dust {
+  background-image: radial-gradient(1px 1px at 20px 30px, rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0)),
+                    radial-gradient(1px 1px at 80px 140px, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0)),
+                    radial-gradient(1.5px 1.5px at 150px 70px, rgba(56, 189, 248, 0.5), rgba(0, 0, 0, 0)),
+                    radial-gradient(1px 1px at 240px 190px, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0));
+  background-size: 320px 320px;
+}
+
+/* Glassmorphism surface */
+.stellar-glass {
+  background: rgba(13, 18, 28, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stellar-glass-subtle {
+  background: rgba(10, 14, 23, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Tabular figures for telemetry */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
