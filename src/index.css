@@ -33,6 +33,10 @@
   .font-script {
     font-family: 'Alex Brush', 'Dancing Script', cursive;
   }
+
+  .font-great-vibes {
+    font-family: 'Great Vibes', cursive;
+  }
 }
 
 /* Custom background glow and grid styles */

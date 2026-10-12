@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
   Heart,
   ArrowLeft,
@@ -13,6 +13,36 @@ import { WeddingPetalsCanvas } from './WeddingPetalsCanvas';
 import heroLiftImg from '../assets/images/IM01.jpg';
 import bouquetCoupleImg from '../assets/images/IM02.jpg';
 import handInHandImg from '../assets/images/IM03.jpg';
+import im03_v2Img from '../assets/images/IM03-v2.jpg';
+import im04_v2Img from '../assets/images/IM04-v2.jpg';
+import im04Img from '../assets/images/IM04.jpg';
+import im05Img from '../assets/images/IM05.jpg';
+import im06Img from '../assets/images/IM06.jpg';
+import im07Img from '../assets/images/IM07.jpg';
+import im08Img from '../assets/images/IM08.jpg';
+import im08_v2Img from '../assets/images/IM08-v2.jpg';
+import im09Img from '../assets/images/IM09.jpg';
+import im10Img from '../assets/images/IM10.jpg';
+import im11Img from '../assets/images/IM11.jpg';
+import im12Img from '../assets/images/IM12.jpg';
+import im13Img from '../assets/images/IM13.jpg';
+import im14Img from '../assets/images/IM14.jpg';
+import im15Img from '../assets/images/IM15.jpg';
+import im16Img from '../assets/images/IM16.jpg';
+import im17Img from '../assets/images/IM17.jpg';
+
+// Preloaded wedding gallery
+// Wedding Configuration
+export const WEDDING_CONFIG = {
+  targetDate: '2026-12-06T18:00:00',
+  title: 'TIỆC MỪNG TÂN HÔN',
+  dateFormatted: 'Chủ Nhật, 06.12.2026',
+  lunarText: 'Âm lịch 28 tháng 10 Năm Bính Ngọ | Lúc 18:00 PM',
+};
+
+// Preloaded wedding gallery
+export const weddingImages = [im04_v2Img, im04Img, im06Img, im07Img, im08Img, im09Img, im10Img, im13Img, im14Img, im15Img];
+
 interface WeddingPageProps {
   onBackToTech: () => void;
 }
@@ -30,7 +60,6 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
   // Audio ref for direct HTML5 audio playback of wedding theme
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-
   // Track scroll position for "Back to top" button
   useEffect(() => {
     const handleScroll = () => {
@@ -45,7 +74,32 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Countdown timer to wedding day: May 20, 2050 at 12:00 PM
+  // Target wedding date object & smart calendar calculations
+  const weddingDate = useMemo(() => new Date(WEDDING_CONFIG.targetDate), []);
+  const weddingYear = weddingDate.getFullYear();
+  const weddingMonth = weddingDate.getMonth(); // 0-indexed (11 = December)
+  const weddingDay = weddingDate.getDate(); // 6
+
+  // 1. Tự động lấy số ngày trong tháng đó (vd: Tháng 12 = 31 ngày)
+  const daysInMonth = useMemo(() => {
+    return new Date(weddingYear, weddingMonth + 1, 0).getDate();
+  }, [weddingYear, weddingMonth]);
+
+  // 2. Tự động tính thứ của ngày 1 trong tháng để đặt các ô trống đầu tháng chuẩn xác
+  // getDay(): 0 = CN, 1 = T2, 2 = T3, 3 = T4, 4 = T5, 5 = T6, 6 = T7
+  const firstDayOfWeek = useMemo(() => {
+    return new Date(weddingYear, weddingMonth, 1).getDay();
+  }, [weddingYear, weddingMonth]);
+
+  // 3. Tiêu đề các thứ trong tuần: CN, T2, T3, T4, T5, T6, T7
+  const WEEKDAYS = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+
+  // Tên tháng tiếng Anh hiển thị trên banner (e.g. "December 2026")
+  const monthYearEnglish = useMemo(() => {
+    return weddingDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  }, [weddingDate]);
+
+  // Countdown timer to wedding day: December 06, 2026 at 18:00 PM
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -62,7 +116,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
       });
     }
 
-    const weddingTarget = new Date('2050-05-20T12:00:00').getTime();
+    const weddingTarget = new Date(WEDDING_CONFIG.targetDate).getTime();
     const updateCountdown = () => {
       const now = new Date().getTime();
       const diff = Math.max(0, weddingTarget - now);
@@ -171,9 +225,9 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             initial={{ scale: 1.08 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1.8, ease: "easeOut" }}
-            src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/5d65d861-da0a-460d-906f-01d503d821eb.jpeg"
+            src={im05Img}
             onError={(e) => { (e.currentTarget as HTMLImageElement).src = heroLiftImg; }}
-            alt="Thuỳ Linh & Quang Huy"
+            alt="Nguyễn Ngân & Nhật Long"
             className="absolute inset-0 w-full h-full object-cover object-top"
           />
           <div className="absolute inset-0 bg-black/25 pointer-events-none" />
@@ -186,7 +240,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-10 pt-8 px-2"
           >
-            <h1 className="text-2xl sm:text-[26px] font-semibold tracking-wider uppercase font-sans text-white drop-shadow-md">
+            <h1 className="text-2xl sm:text-[26px] mt-10 font-wedding font-semibold tracking-wider uppercase text-white drop-shadow-md">
               Welcome to our wedding
             </h1>
             <p className="text-sm mt-2 font-light opacity-90 max-w-sm mx-auto leading-relaxed drop-shadow">
@@ -194,7 +248,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             </p>
           </motion.div>
 
-          {/* Bottom text block: WE GOT MARRIED, Thuỳ Linh & Quang Huy, 2050.05.20, Wedding Invitation */}
+          {/* Bottom text block: WE GOT MARRIED, Nguyen Ngan & Nhat Long, 2026.12.06, Wedding Invitation */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -218,16 +272,16 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="text-2xl sm:text-3xl font-bold font-display-wedding border-b border-white/50 pb-1 text-white drop-shadow-md"
+                className="text-2xl sm:text-3xl font-great-vibes border-b border-white/50 pb-1 text-white drop-shadow-md"
               >
-                Thuỳ Linh
+                Nguyễn Ngân
               </motion.div>
               <motion.div
                 initial={{ scale: 0.6, rotate: -20, opacity: 0 }}
                 whileInView={{ scale: 1, rotate: 0, opacity: 1 }}
                 viewport={{ once: false }}
                 transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
-                className="text-[#ff6883] font-bold text-3xl sm:text-4xl px-2 drop-shadow-md select-none"
+                className=" font-great-vibes text-3xl sm:text-4xl px-2 drop-shadow-md select-none"
               >
                 &amp;
               </motion.div>
@@ -236,9 +290,9 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="text-2xl sm:text-3xl font-bold font-display-wedding border-b border-white/50 pb-1 text-white drop-shadow-md"
+                className="text-2xl sm:text-3xl font-great-vibes border-b border-white/50 pb-1 text-white drop-shadow-md"
               >
-                Quang Huy
+                Nhật Long
               </motion.div>
             </div>
 
@@ -248,13 +302,13 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               whileInView={{ opacity: 1, letterSpacing: '0.2em' }}
               viewport={{ once: false }}
               transition={{ duration: 0.8, delay: 0.25 }}
-              className="text-lg sm:text-xl font-semibold mt-2 text-white drop-shadow-md"
+              className="text-lg font-wedding sm:text-xl font-semibold mt-2 text-white drop-shadow-md"
             >
-              2050.05.20
+              2026.12.06
             </motion.div>
 
             {/* Wedding Invitation */}
-            <p className="text-xs tracking-widest uppercase mt-1 opacity-80 text-white drop-shadow">
+            <p className="text-base font-wedding font-semibold tracking-widest uppercase mt-1 opacity-80 text-white drop-shadow">
               Wedding Invitation
             </p>
           </motion.div>
@@ -271,30 +325,32 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             className="relative h-[285px] w-full overflow-hidden"
           >
             <img
-              src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/13f9dcdf-0bee-47c3-b511-13089aa2a0a3.jpeg"
+              src={im03_v2Img}
               onError={(e) => { (e.currentTarget as HTMLImageElement).src = handInHandImg; }}
               alt="Together in Love"
               className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-6 text-center text-white space-y-2">
-              <motion.h3
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.7 }}
-                className="text-[22px] font-wedding tracking-wider drop-shadow-md"
-              >
-                Right love | Right reason | Right for you
-              </motion.h3>
-              <motion.p
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className="text-[14px] leading-relaxed max-w-sm font-medium text-white/95 drop-shadow"
-              >
-                To Our Family And Friends, Thank You For Celebrating Our Special Day, Supporting Us And Sharing Our Love.
-              </motion.p>
+            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center p-6 text-center text-white">
+              <div className="translate-y-[60px] flex flex-col items-center space-y-2">
+                <motion.h3
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false }}
+                  transition={{ duration: 0.7 }}
+                  className="text-[22px] font-wedding tracking-wider drop-shadow-md"
+                >
+                  Right love | Right reason | Right for you
+                </motion.h3>
+                <motion.p
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false }}
+                  transition={{ duration: 0.7, delay: 0.1 }}
+                  className="text-[14px] leading-relaxed max-w-sm font-medium text-white/95 drop-shadow"
+                >
+                  To Our Family And Friends, Thank You For Celebrating Our Special Day, Supporting Us And Sharing Our Love.
+                </motion.p>
+              </div>
             </div>
           </motion.div>
 
@@ -324,7 +380,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
           >
             <div className="relative rounded overflow-hidden shadow-md">
               <img
-                src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/33108cfa-eebb-49f7-8d94-da847ff81905.jpeg"
+                src={im04_v2Img}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = bouquetCoupleImg; }}
                 alt="Sweet Moment"
                 className="w-full h-[250px] object-cover object-top transition-transform duration-700 hover:scale-105"
@@ -378,7 +434,13 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
           transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           className="px-6 py-6 text-center space-y-4 bg-white"
         >
-          <p className="text-[15px] leading-relaxed text-stone-800 font-normal max-w-sm mx-auto">
+          <motion.p
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false }}
+            transition={{ duration: 0.8 }}
+            className="text-[16px] font-wedding font-semibold text-stone-800 text-center leading-relaxed"
+          >
             Trước đây cứ nghĩ đám cưới chỉ là một thông báo chính thức,
             <br />
             Giờ mới hiểu đó là một dịp hiếm hoi để mọi người tụ họp.
@@ -390,7 +452,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             Cảm ơn gia đình, bạn bè đã luôn đồng hành.
             <br />
             Lâu rồi không gặp, thật sự rất nhớ mọi người!
-          </p>
+          </motion.p>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -399,7 +461,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             transition={{ duration: 0.7, delay: 0.15 }}
             className="text-[24px] font-wedding tracking-wider text-stone-900 pt-2"
           >
-            2050.05.20
+            2026.12.06
           </motion.div>
 
           <p className="text-[20px] font-wedding font-medium text-stone-900">
@@ -432,7 +494,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               viewport={{ once: false }}
               transition={{ duration: 0.85 }}
               // className="absolute left-15 bottom-[140px] z-10 pointer-events-none select-none"
-              className="absolute left-[80px] bottom-[200px] -translate-y-1/2 z-10 pointer-events-none select-none"
+              className="absolute left-[70px] bottom-[200px] -translate-y-1/2 z-10 pointer-events-none select-none"
             >
               <div
                 style={{
@@ -454,7 +516,8 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               className="w-[385px] h-[540px] rounded overflow-hidden shadow-lg"
             >
               <img
-                src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/0d2f9d57-3461-444b-87c6-0d8f3c4489de.jpeg"
+                src={bouquetCoupleImg}
+                // src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/0d2f9d57-3461-444b-87c6-0d8f3c4489de.jpeg"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = handInHandImg; }}
                 alt="Love Story Main"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
@@ -472,21 +535,21 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               className="w-[390px] h-[220px] p-2 bg-white rounded shadow-md overflow-hidden"
             >
               <img
-                src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/d8c117d7-51aa-43ad-b616-c511c746f362.jpeg"
+                src={im08_v2Img}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = bouquetCoupleImg; }}
                 alt="Open arms couple"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
               />
             </motion.div>
-            {/* Rotated date 05.20 */}
+            {/* Rotated date 12.06 */}
             <motion.div
               initial={{ opacity: 0, rotate: 90, scale: 0.7 }}
               whileInView={{ opacity: 1, rotate: 90, scale: 1 }}
               viewport={{ once: false }}
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
-              className="text-[26px] font-wedding font-medium text-stone-900 tracking-widest pl-2"
+              className="whitespace-nowrap text-[17px] font-wedding font-medium text-stone-900 tracking-widest pl-2"
             >
-              05.20
+              December 06
             </motion.div>
           </div>
         </section>
@@ -509,7 +572,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               囍
             </motion.span>
             <div>
-              <h3 className="text-[28px] font-bold font-wedding text-stone-700 leading-tight">
+              <h3 className="text-[25px] font-bold font-wedding text-stone-700 leading-tight">
                 FALL
                 <br />
                 IN LOVE
@@ -551,24 +614,24 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             className="relative rounded overflow-hidden shadow-lg"
           >
             <img
-              src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/021f7a07-bf26-4e5b-ba95-b94503416d3c.jpeg"
+              src={im06Img}
               onError={(e) => { (e.currentTarget as HTMLImageElement).src = heroLiftImg; }}
               alt="Deep Embrace"
               className="w-full h-[565px] object-cover transition-transform duration-700 hover:scale-105"
             />
-            {/* Red bold brush text overlapping bottom */}
+            {/* Elegant Calligraphy text overlapping bottom */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.85, delay: 0.2 }}
-              className="absolute bottom-2 right-4 text-right"
+              className=" inset-x-0 mx-auto text-center px-4 flex flex-col items-center space-y-1.5"
             >
-              <div className="font-script text-[48px] text-[#b70000] font-bold leading-tight drop-shadow">
-                Love and freedom
+              <div className="w-full font-great-vibes text-right text-[8px] sm:text-[25px] text-[#8C3038] font-normal leading-[1.3] drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)]">
+                Two Hearts, One Journey
               </div>
-              <div className="font-script text-[48px] text-[#b70000] font-bold leading-tight drop-shadow -mt-3">
-                you And gentleness
+              <div className="w-full font-great-vibes text-right text-[12px] sm:text-[25px] text-[#8C3038] font-normal leading-[1.3] drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)]">
+                A Lifetime of Love
               </div>
             </motion.div>
           </motion.div>
@@ -576,7 +639,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
 
         {/* ----------------- SECTION 6: WEDDING INFORMATION & TWO PHOTOS ----------------- */}
         <section className="px-6 py-6 bg-white space-y-4">
-          <motion.p
+          {/* <motion.p
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
@@ -590,7 +653,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             Tình yêu đến như một lẽ tự nhiên,
             <br />
             Và chúng ta nắm tay nhau đi đến trọn đời.
-          </motion.p>
+          </motion.p> */}
 
           {/* Headers row */}
           <motion.div
@@ -615,7 +678,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               className="h-[290px] rounded overflow-hidden shadow"
             >
               <img
-                src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/96624014-6e8e-4df2-9577-6b87fc0dda7f.jpeg"
+                src={im09Img}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = heroLiftImg; }}
                 alt="Couple moment 1"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
@@ -629,7 +692,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               className="h-[290px] rounded overflow-hidden shadow"
             >
               <img
-                src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/3e9b5d30-32ba-4034-9952-6ec02489ad24.jpeg"
+                src={im17Img}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = bouquetCoupleImg; }}
                 alt="Couple moment 2"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
@@ -687,7 +750,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               whileInView={{ scale: 1 }}
               viewport={{ once: false }}
               transition={{ duration: 1.2 }}
-              src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/048c66b5-b4e1-462e-b8df-9651d9d5a361.jpeg"
+              src={im16Img}
               onError={(e) => { (e.currentTarget as HTMLImageElement).src = bouquetCoupleImg; }}
               alt="Kiss forehead"
               className="w-full h-full object-cover object-top"
@@ -700,12 +763,12 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false }}
               transition={{ duration: 0.7 }}
-              className="absolute top-4 left-4 right-4 flex items-center justify-between text-white text-base"
+              className="absolute top-4 left-4 right-4 flex items-center justify-between text-white text-base font-wedding tracking-wider drop-shadow-md"
             >
-              <span className="font-semibold">NO.12</span>
-              <span>05.20</span>
-              <span>FALL IN</span>
-              <span>LOVE</span>
+              <span className="font-bold">L&N</span>
+              <span className="font-semibold">{monthYearEnglish}</span>
+              <span className="font-bold">FALL IN</span>
+              <span className="font-bold">LOVE</span>
             </motion.div>
 
             {/* Laurel wreath on photo */}
@@ -714,10 +777,10 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: false }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="absolute top-12 left-0 right-0 flex items-center justify-center gap-2 text-white text-xs tracking-wider"
+              className="absolute top-20 left-0 right-0 flex items-center justify-center gap-2 text-white text-sm font-wedding tracking-[0.2em] drop-shadow-md"
             >
               <span>🌿</span>
-              <span>WEDDING INVITATION</span>
+              <span className="font-bold">WEDDING INVITATION</span>
               <span className="transform -scale-x-100">🌿</span>
             </motion.div>
 
@@ -727,20 +790,38 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: false, amount: 0.2 }}
               transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute top-[280px] left-8 right-8 bg-black/40 backdrop-blur-md rounded-xl p-5 text-white border border-white/10 shadow-2xl"
+              className="absolute top-[280px] left-6 right-6 sm:left-8 sm:right-8 bg-black/45 backdrop-blur-md rounded-xl p-4 sm:p-5 text-white border border-white/15 shadow-2xl"
             >
-              <div className="grid grid-cols-7 gap-y-3 text-center text-sm font-sans">
-                {/* Calendar Days 1..31 */}
-                {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => {
-                  const isWeddingDay = day === 21 || day === 20;
+              <div className="grid grid-cols-7 gap-y-2.5 text-center text-sm font-sans">
+                {/* Hàng tiêu đề thứ trong tuần: CN, T2, T3, T4, T5, T6, T7 */}
+                {WEEKDAYS.map((dow) => (
+                  <div
+                    key={dow}
+                    className={`py-1 text-xs font-semibold tracking-wider ${
+                      dow === 'CN' ? 'text-rose-300 font-bold' : 'text-white/80'
+                    }`}
+                  >
+                    {dow}
+                  </div>
+                ))}
+
+                {/* Tự động đặt các ô trống đầu tháng chuẩn xác */}
+                {Array.from({ length: firstDayOfWeek }).map((_, idx) => (
+                  <div key={`empty-${idx}`} className="py-1" />
+                ))}
+
+                {/* Tự động hiển thị các ngày trong tháng (vd: Tháng 12 có 31 ngày) */}
+                {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
+                  const isWeddingDay = day === weddingDay;
                   return (
                     <div key={day} className="flex items-center justify-center relative py-1">
                       {isWeddingDay ? (
-                        <div className="relative flex items-center justify-center">
-                          <span className="absolute -inset-1 rounded-full bg-red-600/90 shadow-md flex items-center justify-center animate-pulse">
-                            <Heart className="w-5 h-5 fill-current text-white/90" />
+                        <div className="relative flex items-center justify-center w-7 h-7">
+                          {/* Tự động gắn huy hiệu trái tim đỏ đang nhịp đập (Heart animate-pulse) */}
+                          <Heart className="w-6 h-6 fill-red-600 text-red-600 animate-pulse drop-shadow-[0_0_8px_rgba(239,68,68,0.85)]" />
+                          <span className="absolute inset-0 flex items-center justify-center font-bold text-white text-[11px] leading-none drop-shadow">
+                            {day}
                           </span>
-                          <span className="relative z-10 font-bold text-white text-xs">{day}</span>
                         </div>
                       ) : (
                         <span className="text-white/85 text-xs">{day}</span>
@@ -760,11 +841,14 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             transition={{ duration: 0.65 }}
             className="py-5 text-center space-y-1"
           >
+            <p className="font-wedding italic font-bold text-lg text-stone-800">
+              {WEDDING_CONFIG.title}
+            </p>
             <p className="font-wedding italic text-lg text-stone-800">
-              Thứ Bảy, 20.05.2050
+              {WEDDING_CONFIG.dateFormatted}
             </p>
             <p className="font-wedding italic text-sm text-stone-600">
-              Âm lịch 22/4 | 12:00 PM
+              {WEDDING_CONFIG.lunarText}
             </p>
           </motion.div>
 
@@ -800,7 +884,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.75 }}
-            className="text-[17px] leading-relaxed text-stone-800"
+            className="text-[16px] font-wedding font-semibold text-stone-800 leading-relaxed"
           >
             Ánh trời bừng sáng, rơi vào chốn nhân gian.
             <br />
@@ -821,7 +905,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               className="h-[240px] rounded overflow-hidden shadow"
             >
               <img
-                src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/4990d53a-c8e0-47b6-8ccc-4efca542bc32.jpeg"
+                src={im11Img}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = bouquetCoupleImg; }}
                 alt="Laughing together"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
@@ -835,7 +919,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               className="h-[240px] rounded overflow-hidden shadow"
             >
               <img
-                src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/bce43835-1a2e-4d3c-a1b4-5d2830c9a25c.jpeg"
+                src={im12Img}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = handInHandImg; }}
                 alt="Looking at each other"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
@@ -868,7 +952,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               className="w-[358px] h-[358px] p-2 bg-white rounded shadow-md overflow-hidden"
             >
               <img
-                src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/adf5f081-6d66-429e-921b-a8f9832940cb.jpeg"
+                src={im07Img}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = heroLiftImg; }}
                 alt="Forever"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
@@ -919,11 +1003,11 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               width="100%"
               height="100%"
               frameBorder="0"
-              src="https://maps.google.com/maps?q=52%20Mi%E1%BA%BFu%20%C4%90%E1%BA%A7m%2C%20M%E1%BB%85%20Tr%C3%AC%2C%20Nam%20T%E1%BB%AB%20Li%C3%AAm%2C%20H%C3%A0%20N%E1%BB%99i&t=&z=14&ie=UTF8&iwloc=&output=embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d304.81331853410717!2d106.62866087489543!3d10.805836191844557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752bd46f658857%3A0x227ecfc8312d0652!2sVenus%20Luxury!5e0!3m2!1svi!2s!4v1791820132975!5m2!1svi!2s"
               allowFullScreen
             />
             <a
-              href="https://maps.google.com/?q=52+Miếu+Đầm+Mễ+Trì+Nam+Từ+Liêm+Hà+Nội"
+              href="https://maps.app.goo.gl/2L7GnDmhZpZwSK929"
               target="_blank"
               rel="noopener noreferrer"
               className="absolute top-2 left-2 bg-white/90 px-3 py-1.5 rounded shadow text-xs font-semibold text-blue-600 flex items-center gap-1 hover:bg-white transition-colors"
@@ -934,11 +1018,13 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
           </motion.div>
 
           <div className="text-center py-2">
-            <h4 className="text-[16px] font-wedding font-semibold text-stone-800">
-              Trung tâm tiệc cưới Grand Palace
+            <h4 className="text-[20px] font-wedding font-semibold text-stone-800">
+              Trung tâm hội nghị - tiệc cưới Venus Luxury
             </h4>
-            <p className="text-xs text-stone-500 mt-0.5">
-              52 Miếu Đầm, Mễ Trì, Nam Từ Liêm, Hà Nội
+            <p className="text-m font-bold font-wedding text-stone-500 mt-0.5">
+              Sảnh Hera - Tầng 3
+              <br />
+              117-117A Lê Trọng Tấn, Phường Tân Sơn Nhì, Tp.Hồ Chí Minh
             </p>
           </div>
 
@@ -950,7 +1036,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             className="w-full h-[225px] rounded overflow-hidden shadow"
           >
             <img
-              src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/d8c117d7-51aa-43ad-b616-c511c746f362.jpeg"
+              src={im05Img}
               onError={(e) => { (e.currentTarget as HTMLImageElement).src = handInHandImg; }}
               alt="Love forever"
               className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
@@ -972,7 +1058,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             className="relative h-[670px] w-full rounded overflow-hidden shadow"
           >
             <img
-              src="https://assets.cinelove.me/templates/assets/7e275458-268a-4dad-b147-1af6ad9abb46/c47cf001-2170-4c33-923a-82f6e8b117f0.jpeg"
+              src={im09Img}
               onError={(e) => { (e.currentTarget as HTMLImageElement).src = heroLiftImg; }}
               alt="Sunshine Bride and Groom"
               className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
