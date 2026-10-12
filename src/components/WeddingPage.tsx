@@ -52,11 +52,6 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
   const [showPetals, setShowPetals] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // RSVP Form state
-  const [rsvpName, setRsvpName] = useState('');
-  const [rsvpAttendance, setRsvpAttendance] = useState<'yes' | 'no'>('yes');
-  const [rsvpSubmitted, setRsvpSubmitted] = useState(false);
-
   // Audio ref for direct HTML5 audio playback of wedding theme
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -148,13 +143,6 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
     }
   };
 
-  const handleRsvpSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!rsvpName.trim()) return;
-    setRsvpSubmitted(true);
-    setTimeout(() => setRsvpSubmitted(false), 4000);
-  };
-
   return (
     <div className="min-h-screen bg-[#F0F2F5] text-stone-900 font-sans relative selection:bg-rose-200 selection:text-rose-900">
 
@@ -192,9 +180,9 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
           {/* Petal Canvas Toggle */}
           <button
             onClick={() => setShowPetals(!showPetals)}
-            title={showPetals ? 'Tắt hiệu ứng' : 'Bật hiệu ứngy'}
+            title={showPetals ? 'Tắt hiệu ứng' : 'Bật hiệu ứng'}
             aria-label="Toggle Petals"
-            className="w-8 h-8 rounded-full bg-black/70 hover:bg-black/85 border border-white/70 shadow-md flex items-center justify-center text-white overflow-hidden active:scale-95 transition-all"
+            className="relative w-8 h-8 rounded-full bg-black/70 hover:bg-black/85 border border-white/70 shadow-md flex items-center justify-center text-white overflow-hidden active:scale-95 transition-all"
           >
             <Sparkles className={`w-3.5 h-3.5 ${showPetals ? 'text-pink-300' : 'text-stone-400'}`} />
           </button>
@@ -204,7 +192,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             onClick={handleToggleMusic}
             aria-label="Toggle Music"
             title={isPlayingMusic ? 'Tắt nhạc' : 'Bật nhạc'}
-            className="w-8 h-8 rounded-full bg-black/80 border border-white/80 shadow-md flex items-center justify-center text-white overflow-hidden active:scale-95 transition-transform"
+            className="relative w-8 h-8 rounded-full bg-black/80 border border-white/80 shadow-md flex items-center justify-center text-white overflow-hidden active:scale-95 transition-transform"
           >
             <div className={`w-full h-full flex items-center justify-center ${isPlayingMusic ? 'animate-[spin_5s_linear_infinite]' : ''}`}>
               <div className="absolute inset-1 rounded-full border border-white/20" />
