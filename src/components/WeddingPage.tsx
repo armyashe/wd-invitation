@@ -31,6 +31,7 @@ import im15Img from '../assets/images/IM15.jpg';
 // import im16Img from '../assets/images/IM16.jpg';
 import im16_v2Img from '../assets/images/IM16-v2.jpg';
 import im17Img from '../assets/images/IM17.jpg';
+import qrImg from '../assets/images/QR-grom.jpg';
 
 // Preloaded wedding gallery
 // Wedding Configuration
@@ -44,6 +45,76 @@ export const WEDDING_CONFIG = {
 // Preloaded wedding gallery
 export const weddingImages = [im04_v2Img, im04Img, im06Img, im07Img, im08Img, im09Img, im10Img, im13Img, im14Img, im15Img];
 
+interface CalendarQrCardProps {
+  role: string;
+  name: string;
+  bankName: string;
+  accountNumber: string;
+  accountHolder: string;
+  qrUrl: string;
+  copySuccess: boolean;
+  onCopy: () => void;
+}
+
+const CalendarQrCard: React.FC<CalendarQrCardProps> = ({
+  role,
+  name,
+  bankName,
+  accountNumber,
+  accountHolder,
+  qrUrl,
+  copySuccess,
+  onCopy,
+}) => {
+  return (
+    <div className="bg-white rounded-2xl p-5 shadow-lg border border-rose-100 max-w-xs mx-auto text-center">
+      <div className="flex justify-between items-center mb-3 pb-2 border-b border-rose-50">
+        <span className="text-xs uppercase font-bold text-[#5e2229] tracking-wider">
+          {role}: {name}
+        </span>
+        <span className="text-[11px] font-semibold text-rose-700 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200">
+          {bankName}
+        </span>
+      </div>
+
+      <div className="p-3 bg-slate-50/80 rounded-xl border border-slate-100 flex justify-center items-center my-3 shadow-inner">
+        <img
+          src={qrUrl}
+          alt={`Mã QR ${accountHolder}`}
+          className="w-44 h-44 object-contain rounded-lg drop-shadow-sm"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).alt = 'QR Code';
+          }}
+        />
+      </div>
+
+      <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-0.5">
+        Chủ tài khoản
+      </div>
+      <div className="text-sm font-bold uppercase tracking-wider text-slate-800 mb-1 font-wedding">
+        {accountHolder}
+      </div>
+
+      <div className="flex items-center justify-center gap-2 sm:gap-2.5">
+        <span className="font-mono text-xs sm:text-[13.5px] text-slate-700 font-normal">
+          {bankName} - {accountNumber}
+        </span>
+        <button
+          type="button"
+          onClick={onCopy}
+          className={`text-xs px-2.5 py-0.5 rounded-md font-medium transition active:scale-95 border shrink-0 ${
+            copySuccess
+              ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+              : 'bg-[#fff1f2] text-[#be123c] border-[#fecdd3] hover:bg-rose-100'
+          }`}
+        >
+          {copySuccess ? 'Đã sao chép' : 'Sao chép'}
+        </button>
+      </div>
+    </div>
+  );
+};
+
 interface WeddingPageProps {
   onBackToTech: () => void;
 }
@@ -52,6 +123,14 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
   const [isPlayingMusic, setIsPlayingMusic] = useState(true);
   const [showPetals, setShowPetals] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showGiftModal, setShowGiftModal] = useState(false);
+  const [copySuccess, setCopySuccess] = useState<string | null>(null);
+
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    setCopySuccess(label);
+    setTimeout(() => setCopySuccess(null), 2500);
+  };
 
   // Audio ref for direct HTML5 audio playback of wedding theme
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -1057,9 +1136,32 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
           </motion.div>
         </section>
 
-        {/* ----------------- SECTION 10: RSVP & THANK YOU ----------------- */}
-        <section className="px-6 py-8 bg-white space-y-6">
+            {/* SECTION: HỘP QUÀ MỪNG (THE CALENDAR FRAME QR CODE SECTION) */}
+            <section id="hop-qua-mung" className="py-16 px-6 bg-gradient-to-b from-white via-rose-50/40 to-white text-center border-t border-slate-100">
+              {/* Pill badge from Image 2 */}
+              <div className="inline-block bg-[#5e2229] text-white px-7 py-2 rounded-full font-medium text-xs sm:text-sm tracking-widest uppercase shadow-md mb-2">
+                Hộp quà mừng
+              </div>
 
+              <p className="text-xs text-slate-500 mb-6 max-w-xs mx-auto">
+                Cảm ơn tình cảm và sự chúc phúc chân thành từ bạn dành cho ngày vui của chúng mình!
+              </p>
+
+              {/* Calendar Style Frame with QR code (from Image 1 & 2) */}
+              <CalendarQrCard
+                role="Chú rể"
+                name="Nhật Long"
+                bankName="Sacombank"
+                accountNumber="060139264919"
+                accountHolder="LE NHAT LONG"
+                qrUrl={qrImg}
+                copySuccess={copySuccess === 'bride'}
+                onCopy={() => copyToClipboard('060139264919', 'bride')}
+              />
+            </section>
+
+        {/* ----------------- FOOTER: THANK YOU ----------------- */}
+        <footer className="px-6 py-8 bg-white space-y-6">
 
           {/* Cute Couple Drawing Illustration */}
           <motion.div
@@ -1089,11 +1191,48 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               Thankyou
             </motion.div>
           </motion.div>
-        </section>
+        </footer>
 
       </div>
 
+        {/* MODAL: GIFT / QR BANKING */}
+        {showGiftModal && (
+          <div 
+            onClick={() => setShowGiftModal(false)}
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+          >
+            <div 
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center animate-fade-rise max-h-[92vh] overflow-y-auto"
+            >
+              <div className="inline-block bg-[#5e2229] text-white px-6 py-1.5 rounded-full font-medium text-xs tracking-widest uppercase shadow-md mb-2">
+                Hộp quà mừng
+              </div>
 
+              {/* Calendar Qr Card in Modal */}
+              <div className="mt-4">
+                <CalendarQrCard
+                  role="Cô dâu"
+                  name="Thuỳ Linh"
+                  bankName="Vietcombank"
+                  accountNumber="1012345678"
+                  accountHolder="HOANG THUY LINH"
+                  qrUrl="https://img.vietqr.io/image/VCB-1012345678-compact2.png?amount=0&addInfo=Mung%20cuoi%20Thuy%20Linh&accountName=HOANG%20THUY%20LINH"
+                  copySuccess={copySuccess === 'bride'}
+                  onCopy={() => copyToClipboard('1012345678', 'bride')}
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setShowGiftModal(false)}
+                className="mt-6 w-full py-2.5 bg-slate-800 text-white rounded-xl text-xs font-semibold hover:bg-slate-900 transition active:scale-98"
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        )}
 
       {/* Floating "Scroll to top" button when scrolled down */}
       <AnimatePresence>
