@@ -28,7 +28,8 @@ import im12Img from '../assets/images/IM12.jpg';
 import im13Img from '../assets/images/IM13.jpg';
 import im14Img from '../assets/images/IM14.jpg';
 import im15Img from '../assets/images/IM15.jpg';
-import im16Img from '../assets/images/IM16.jpg';
+// import im16Img from '../assets/images/IM16.jpg';
+import im16_v2Img from '../assets/images/IM16-v2.jpg';
 import im17Img from '../assets/images/IM17.jpg';
 
 // Preloaded wedding gallery
@@ -215,7 +216,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             transition={{ duration: 1.8, ease: "easeOut" }}
             src={im05Img}
             onError={(e) => { (e.currentTarget as HTMLImageElement).src = heroLiftImg; }}
-            alt="Nguyễn Ngân & Nhật Long"
+            alt="Nhật Long & Nguyễn Ngân"
             className="absolute inset-0 w-full h-full object-cover object-top"
           />
           <div className="absolute inset-0 bg-black/25 pointer-events-none" />
@@ -232,7 +233,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               Welcome to our wedding
             </h1>
             <p className="text-sm mt-2 font-light opacity-90 max-w-sm mx-auto leading-relaxed drop-shadow">
-              I love three things in this world: Sun, moon and you. Sun for morning, moon for night, and you forever.
+              Giữa muôn vàn người trên thế gian, thật may vì chúng ta đã tìm thấy nhau.
             </p>
           </motion.div>
 
@@ -262,7 +263,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="text-2xl sm:text-3xl font-great-vibes border-b border-white/50 pb-1 text-white drop-shadow-md"
               >
-                Nguyễn Ngân
+                Nhật Long
               </motion.div>
               <motion.div
                 initial={{ scale: 0.6, rotate: -20, opacity: 0 }}
@@ -280,7 +281,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                 className="text-2xl sm:text-3xl font-great-vibes border-b border-white/50 pb-1 text-white drop-shadow-md"
               >
-                Nhật Long
+                Nguyễn Ngân
               </motion.div>
             </div>
 
@@ -336,7 +337,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                   transition={{ duration: 0.7, delay: 0.1 }}
                   className="text-[14px] font-wedding leading-relaxed max-w-sm font-medium text-white/95 drop-shadow"
                 >
-                  To Our Family And Friends, Thank You For Celebrating Our Special Day, Supporting Us And Sharing Our Love.
+                  Trân trọng cảm ơn gia đình và bạn bè đã hiện diện, chúc phúc và cùng chúng mình viết nên ngày hạnh phúc.
                 </motion.p>
               </div>
             </div>
@@ -627,21 +628,6 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
 
         {/* ----------------- SECTION 6: WEDDING INFORMATION & TWO PHOTOS ----------------- */}
         <section className="px-6 py-6 bg-white space-y-4">
-          {/* <motion.p
-            initial={{ opacity: 0, y: 25 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false }}
-            transition={{ duration: 0.8 }}
-            className="text-[17px] text-center leading-relaxed text-stone-800"
-          >
-            Núi biếc rừng xanh vang vọng tiếng lòng,
-            <br />
-            Giữa thế gian rộng lớn, người chung nhịp vẫn tìm thấy nhau.
-            <br />
-            Tình yêu đến như một lẽ tự nhiên,
-            <br />
-            Và chúng ta nắm tay nhau đi đến trọn đời.
-          </motion.p> */}
 
           {/* Headers row */}
           <motion.div
@@ -724,7 +710,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               whileInView={{ scale: 1 }}
               viewport={{ once: false }}
               transition={{ duration: 1.2 }}
-              src={im16Img}
+              src={im16_v2Img}
               onError={(e) => { (e.currentTarget as HTMLImageElement).src = bouquetCoupleImg; }}
               alt="Kiss forehead"
               className="w-full h-full object-cover object-top"
@@ -1054,16 +1040,16 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.85, delay: 0.2 }}
-                className="font-script text-[64px] text-white drop-shadow-lg block leading-tight"
+                className="font-script text-[52px] text-white drop-shadow-lg block leading-tight"
               >
-                You ar my
+                You are my
               </motion.span>
               <motion.span
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false }}
                 transition={{ duration: 0.85, delay: 0.3 }}
-                className="font-script text-[64px] text-white drop-shadow-lg block leading-tight -mt-4"
+                className="font-script text-[50px] text-white drop-shadow-lg block leading-tight -mt-4"
               >
                 Sunshine
               </motion.span>
@@ -1106,6 +1092,8 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
         </section>
 
       </div>
+
+
 
       {/* Floating "Scroll to top" button when scrolled down */}
       <AnimatePresence>
