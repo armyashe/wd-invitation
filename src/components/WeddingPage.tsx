@@ -32,6 +32,7 @@ import im15Img from '../assets/images/IM15.jpg';
 import im16_v2Img from '../assets/images/IM16-v2.jpg';
 import im17Img from '../assets/images/IM17.jpg';
 import qrImg from '../assets/images/QR-grom.jpg';
+import AudioPlayer from '../assets/music-vay-cuoi-erik.mp3';
 
 // Preloaded wedding gallery
 // Wedding Configuration
@@ -135,18 +136,39 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
   // Audio ref for direct HTML5 audio playback of wedding theme
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Track scroll position for "Back to top" button
+  // Keep the control in sync after navigation, viewport changes, and restored scroll positions.
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 380) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
+    let animationFrameId: number | null = null;
+
+    const updateScrollTopVisibility = () => {
+      animationFrameId = null;
+
+      const scrollTop = document.scrollingElement?.scrollTop ?? window.scrollY;
+      setShowScrollTop(scrollTop > 24);
+    };
+
+    const scheduleUpdate = () => {
+      if (animationFrameId === null) {
+        animationFrameId = window.requestAnimationFrame(updateScrollTopVisibility);
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    updateScrollTopVisibility();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+    window.addEventListener('pageshow', scheduleUpdate);
+    window.visualViewport?.addEventListener('resize', scheduleUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      window.removeEventListener('pageshow', scheduleUpdate);
+      window.visualViewport?.removeEventListener('resize', scheduleUpdate);
+
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, []);
 
   // Target wedding date object & smart calendar calculations
@@ -229,7 +251,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
       {/* HTML5 Audio Player */}
       <audio
         ref={audioRef}
-        src="https://assets.cinelove.me/mp3/0e470330-e4d4-4fdc-8d99-830aab66916c.mp3"
+        src={AudioPlayer}
         loop
         preload="auto"
       />
@@ -695,7 +717,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               transition={{ duration: 0.85, delay: 0.2 }}
               className=" inset-x-0 mx-auto text-center px-4 flex flex-col items-center space-y-1.5"
             >
-              <div className="w-full font-great-vibes text-right text-[8px] sm:text-[25px] text-[#8C3038] font-normal leading-[1.3] drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)]">
+              <div className="w-full font-great-vibes text-right text-[12px] sm:text-[25px] text-[#8C3038] font-normal leading-[1.3] drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)]">
                 Two Hearts, One Journey
               </div>
               <div className="w-full font-great-vibes text-right text-[12px] sm:text-[25px] text-[#8C3038] font-normal leading-[1.3] drop-shadow-[0_1px_2px_rgba(255,255,255,0.7)]">
@@ -745,7 +767,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               className="h-[290px] rounded overflow-hidden shadow"
             >
               <img
-                src={im17Img}
+                src={im15Img}
                 onError={(e) => { (e.currentTarget as HTMLImageElement).src = bouquetCoupleImg; }}
                 alt="Couple moment 2"
                 className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
@@ -982,10 +1004,10 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             transition={{ duration: 0.75 }}
             className="py-2"
           >
-            <span className="font-script text-[26px] text-stone-700 block">
+            <span className="font-script text-[23px] text-stone-700 block">
               As the clouds and mist dissipate
             </span>
-            <span className="font-script text-[26px] text-stone-700 block">
+            <span className="font-script text-[23px] text-stone-700 block">
               love you and everyone knows it
             </span>
           </motion.div>
@@ -1011,7 +1033,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
               whileInView={{ opacity: 1, rotate: 90, scale: 1 }}
               viewport={{ once: false }}
               transition={{ type: "spring", stiffness: 200, damping: 15 }}
-              className="flex flex-col items-center text-[18px] font-wedding text-stone-900 tracking-widest pl-2"
+              className="flex flex-col items-center text-[15px] font-wedding text-stone-900 tracking-widest pl-2"
             >
               <span>FOREVER</span>
               <span>AND</span>
@@ -1106,7 +1128,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             className="relative h-[670px] w-full rounded overflow-hidden shadow"
           >
             <img
-              src={im09Img}
+              src={im17Img}
               onError={(e) => { (e.currentTarget as HTMLImageElement).src = heroLiftImg; }}
               alt="Sunshine Bride and Groom"
               className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
@@ -1121,7 +1143,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 transition={{ duration: 0.85, delay: 0.2 }}
                 className="font-script text-[52px] text-white drop-shadow-lg block leading-tight"
               >
-                You are my
+                We’re meant to 
               </motion.span>
               <motion.span
                 initial={{ opacity: 0, y: 25 }}
@@ -1130,20 +1152,20 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 transition={{ duration: 0.85, delay: 0.3 }}
                 className="font-script text-[50px] text-white drop-shadow-lg block leading-tight -mt-4"
               >
-                Sunshine
+                be together 
               </motion.span>
             </div>
           </motion.div>
         </section>
 
             {/* SECTION: HỘP QUÀ MỪNG (THE CALENDAR FRAME QR CODE SECTION) */}
-            <section id="hop-qua-mung" className="py-16 px-6 bg-gradient-to-b from-white via-rose-50/40 to-white text-center border-t border-slate-100">
+            <section id="hop-qua-mung" className="py-8 px-6 bg-gradient-to-b from-white via-rose-50/40 to-white text-center border-t border-slate-100">
               {/* Pill badge from Image 2 */}
               <div className="inline-block bg-[#5e2229] text-white px-7 py-2 rounded-full font-medium text-xs sm:text-sm tracking-widest uppercase shadow-md mb-2">
                 Hộp quà mừng
               </div>
 
-              <p className="text-xs text-slate-500 mb-6 max-w-xs mx-auto">
+              <p className="text-xs text-slate-500 py-2 mb-6 max-w-xs mx-auto">
                 Cảm ơn tình cảm và sự chúc phúc chân thành từ bạn dành cho ngày vui của chúng mình!
               </p>
 
@@ -1161,7 +1183,10 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             </section>
 
         {/* ----------------- FOOTER: THANK YOU ----------------- */}
-        <footer className="px-6 py-8 bg-white space-y-6">
+        <footer
+          id="thank-you"
+          className="px-6 pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))] bg-white space-y-6"
+        >
 
           {/* Cute Couple Drawing Illustration */}
           <motion.div
@@ -1244,7 +1269,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded-full bg-rose-600/90 hover:bg-rose-700 text-white shadow-xl backdrop-blur-md flex items-center justify-center border border-white/30 transition-colors"
+            className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-[calc(1.5rem+env(safe-area-inset-right))] z-50 w-10 h-10 rounded-full bg-rose-600/90 hover:bg-rose-700 text-white shadow-xl backdrop-blur-md flex items-center justify-center border border-white/30 transition-colors"
             title="Cuộn lên đầu trang"
             aria-label="Cuộn lên đầu trang"
           >
