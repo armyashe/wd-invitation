@@ -136,10 +136,41 @@ export default function App() {
           Trân trọng kính mời bạn đến chung vui và chia sẻ những khoảnh khắc hạnh phúc nhất trong ngày trọng đại của chúng mình.
         </p>
 
+        {/* Cụm hướng dẫn "Chạm để mở thiệp mời" */}
+        <div className="mt-8 mb-2 flex items-center justify-center select-none px-4">
+          <div className="-translate-x-[110px] translate-y-[50px] ">
+            <div className="flex items-center justify-center gap-2 sm:gap-2.5 animate-bounce">
+              <div className="flex flex-col items-end text-right font-wedding text-sm font-bold italic text-neutral-900 tracking-wide leading-tight whitespace-nowrap animate-text-glow drop-shadow">
+                <span>Chạm để mở</span>
+                <span>thiệp mời</span>
+              </div>
+              <div className="w-8 h-8 sm:w-9 sm:h-8 flex-shrink-0 pt-0.5">
+                <svg
+                  viewBox="0 0 65 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-full h-full text-black drop-shadow-sm overflow-visible"
+                >
+                  <path
+                    d="M 4 22 C 18 2, 45 3, 53 28"
+                    stroke="currentColor"
+                    strokeWidth="4.2"
+                    strokeLinecap="round"
+                  />
+                  <polygon
+                    points="42,22 55,30 59,15"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Hero CTA Button */}
         <button
           onClick={handleOpenInvitation}
-          className="rounded-full px-14 py-5 text-base mt-12 bg-[#000000] text-[#FFFFFF] hover:scale-[1.03] transition-transform duration-200 animate-fade-rise-delay-2 shadow-lg hover:shadow-xl active:scale-95"
+          className="rounded-full px-12 py-4 text-base sm:text-lg mt-12 bg-black text-white hover:bg-neutral-800 hover:scale-105 active:scale-95 transition-all duration-200 shadow-2xl font-medium tracking-wide animate-pulse"
         >
           Mở thiệp mời
         </button>
