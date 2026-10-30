@@ -1,8 +1,14 @@
+export type BankRecipient = 'groom' | 'bride';
+
 export interface BankAccount {
   bankName: string;
   accountNumber: string;
   accountHolder: string;
   qrUrl: string;
+}
+
+export interface BankConfig extends BankAccount {
+  recipient: BankRecipient;
 }
 
 export interface CalendarQrCardProps {
@@ -15,4 +21,3 @@ export interface CalendarQrCardProps {
   copySuccess: boolean;
   onCopy: () => void;
 }
-

@@ -34,8 +34,7 @@ wedding/
 │   │       │   ├── WeddingGiftSection.tsx
 │   │       │   └── WeddingFooterSection.tsx
 │   │       ├── CalendarQrCard.tsx
-│   │       ├── FloatingControls.tsx
-│   │       └── WeddingGiftModal.tsx
+│   │       └── FloatingControls.tsx
 │   ├── config/                  # App & event configurations
 │   │   ├── env.config.ts
 │   │   └── wedding.config.ts

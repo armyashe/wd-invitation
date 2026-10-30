@@ -1,18 +1,11 @@
 import { envConfig } from '../config/env.config';
-import { defaultGroomQrImg } from './images.constants';
-import type { BankAccount } from '../types/bank.types';
+import type { BankConfig } from '../types/bank.types';
 
-export const groomBank: BankAccount = {
-  bankName: envConfig.groom.bankName,
-  accountNumber: envConfig.groom.accountNumber,
-  accountHolder: envConfig.groom.accountHolder,
-  qrUrl: envConfig.groom.qrUrl || defaultGroomQrImg,
+// Tài khoản ngân hàng duy nhất được cấu hình theo từng Vercel Project
+export const weddingBank: BankConfig = {
+  recipient: envConfig.bank.recipient,
+  bankName: envConfig.bank.bankName,
+  accountNumber: envConfig.bank.accountNumber,
+  accountHolder: envConfig.bank.accountHolder,
+  qrUrl: envConfig.bank.qrUrl,
 };
-
-export const brideBank: BankAccount = {
-  bankName: envConfig.bride.bankName,
-  accountNumber: envConfig.bride.accountNumber,
-  accountHolder: envConfig.bride.accountHolder,
-  qrUrl: envConfig.bride.qrUrl,
-};
-

@@ -16,7 +16,18 @@ interface WeddingCalendarSectionProps {
 }
 
 export const WeddingCalendarSection: React.FC<WeddingCalendarSectionProps> = ({ timeLeft }) => {
-  const weddingDate = useMemo(() => new Date(WEDDING_CONFIG.targetDate), []);
+  const { weddingDate, isValidDate } = useMemo(() => {
+    if (!WEDDING_CONFIG.targetDate) {
+      return { weddingDate: new Date('1970-01-01T00:00:00'), isValidDate: false };
+    }
+    const d = new Date(WEDDING_CONFIG.targetDate);
+    const valid = !isNaN(d.getTime());
+    return {
+      weddingDate: valid ? d : new Date('1970-01-01T00:00:00'),
+      isValidDate: valid,
+    };
+  }, []);
+
   const weddingYear = weddingDate.getFullYear();
   const weddingMonth = weddingDate.getMonth();
   const weddingDay = weddingDate.getDate();
@@ -30,8 +41,8 @@ export const WeddingCalendarSection: React.FC<WeddingCalendarSectionProps> = ({ 
   }, [weddingYear, weddingMonth]);
 
   const monthYearEnglish = useMemo(() => {
-    return getMonthYearEnglish(weddingDate);
-  }, [weddingDate]);
+    return isValidDate ? getMonthYearEnglish(weddingDate) : '';
+  }, [weddingDate, isValidDate]);
 
   return (
     <section className="relative w-full bg-white pt-2">
@@ -113,14 +124,14 @@ export const WeddingCalendarSection: React.FC<WeddingCalendarSectionProps> = ({ 
               <div key={`empty-${idx}`} className="py-1" />
             ))}
 
-            {/* Tự động hiển thị các ngày trong tháng (vd: Tháng 12 có 31 ngày) */}
+            {/* Tự động hiển thị các ngày trong tháng */}
             {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => {
-              const isWeddingDay = day === weddingDay;
+              const isWeddingDay = isValidDate && day === weddingDay;
               return (
                 <div key={day} className="flex items-center justify-center relative py-1">
                   {isWeddingDay ? (
                     <div className="relative flex items-center justify-center w-7 h-7">
-                      {/* Tự động gắn huy hiệu trái tim đỏ đang nhịp đập (Heart animate-pulse) */}
+                      {/* Tự động gắn huy hiệu trái tim đỏ đang nhịp đập */}
                       <Heart className="w-6 h-6 fill-red-600 text-red-600 animate-pulse drop-shadow-[0_0_8px_rgba(239,68,68,0.85)]" />
                       <span className="absolute inset-0 flex items-center justify-center font-bold text-white text-[11px] leading-none drop-shadow">
                         {day}
@@ -150,9 +161,11 @@ export const WeddingCalendarSection: React.FC<WeddingCalendarSectionProps> = ({ 
         <p className="font-wedding italic text-lg text-stone-800">
           {WEDDING_CONFIG.dateFormatted}
         </p>
-        <p className="font-wedding italic text-sm text-stone-600">
-          {WEDDING_CONFIG.lunarText}
-        </p>
+        {WEDDING_CONFIG.lunarText && (
+          <p className="font-wedding italic text-sm text-stone-600">
+            {WEDDING_CONFIG.lunarText}
+          </p>
+        )}
       </motion.div>
 
       {/* Red Countdown Bar with 3D Flip Spring Entrance */}
@@ -183,4 +196,3 @@ export const WeddingCalendarSection: React.FC<WeddingCalendarSectionProps> = ({ 
 };
 
 export default WeddingCalendarSection;
-

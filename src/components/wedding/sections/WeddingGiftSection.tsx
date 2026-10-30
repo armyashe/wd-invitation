@@ -3,15 +3,17 @@ import { CalendarQrCard } from '../CalendarQrCard';
 import type { BankAccount } from '../../../types/bank.types';
 
 interface WeddingGiftSectionProps {
-  groomBank: BankAccount;
-  groomName?: string;
+  bank: BankAccount;
+  role: string;
+  name: string;
   isCopied: boolean;
   onCopy: () => void;
 }
 
 export const WeddingGiftSection: React.FC<WeddingGiftSectionProps> = ({
-  groomBank,
-  groomName = 'Nhật Long',
+  bank,
+  role,
+  name,
   isCopied,
   onCopy,
 }) => {
@@ -29,14 +31,14 @@ export const WeddingGiftSection: React.FC<WeddingGiftSectionProps> = ({
         Cảm ơn tình cảm và sự chúc phúc chân thành từ bạn dành cho ngày vui của chúng mình!
       </p>
 
-      {/* Calendar Style Frame with QR code */}
+      {/* Calendar Style Frame with QR code duy nhất */}
       <CalendarQrCard
-        role="Chú rể"
-        name={groomName}
-        bankName={groomBank.bankName}
-        accountNumber={groomBank.accountNumber}
-        accountHolder={groomBank.accountHolder}
-        qrUrl={groomBank.qrUrl}
+        role={role}
+        name={name}
+        bankName={bank.bankName}
+        accountNumber={bank.accountNumber}
+        accountHolder={bank.accountHolder}
+        qrUrl={bank.qrUrl}
         copySuccess={isCopied}
         onCopy={onCopy}
       />
@@ -45,4 +47,3 @@ export const WeddingGiftSection: React.FC<WeddingGiftSectionProps> = ({
 };
 
 export default WeddingGiftSection;
-

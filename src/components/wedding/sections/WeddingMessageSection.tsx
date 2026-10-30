@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
+import { WEDDING_CONFIG } from '../../../config/wedding.config';
+import { formatDateDot } from '../../../utils/calendar.utils';
 
 export const WeddingMessageSection: React.FC = () => {
+  const displayDateDot = useMemo(
+    () => formatDateDot(WEDDING_CONFIG.targetDate),
+    []
+  );
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 35 }}
@@ -37,7 +44,7 @@ export const WeddingMessageSection: React.FC = () => {
         transition={{ duration: 0.7, delay: 0.15 }}
         className="text-[24px] font-wedding tracking-wider text-stone-900 pt-2"
       >
-        2026.12.06
+        {displayDateDot}
       </motion.div>
 
       <p className="text-[17px] font-wedding font-medium text-stone-900">
@@ -48,4 +55,3 @@ export const WeddingMessageSection: React.FC = () => {
 };
 
 export default WeddingMessageSection;
-

@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
 import { heroLiftImg, im05Img } from '../../../constants/images.constants';
+import { WEDDING_CONFIG } from '../../../config/wedding.config';
+import { formatDateDot } from '../../../utils/calendar.utils';
 
 export const WeddingHeroCover: React.FC = () => {
+  const displayDateDot = useMemo(
+    () => formatDateDot(WEDDING_CONFIG.targetDate),
+    []
+  );
+
   return (
     <header className="relative w-full h-[850px] bg-cover bg-center flex flex-col justify-between p-6 text-white text-center overflow-hidden">
       <motion.img
@@ -34,7 +41,7 @@ export const WeddingHeroCover: React.FC = () => {
         </p>
       </motion.div>
 
-      {/* Bottom text block: WE GOT MARRIED, Nguyen Ngan & Nhat Long, 2026.12.06, Wedding Invitation */}
+      {/* Bottom text block: WE GOT MARRIED, Nguyen Ngan & Nhat Long, Date, Wedding Invitation */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -90,7 +97,7 @@ export const WeddingHeroCover: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.25 }}
           className="text-lg font-wedding sm:text-xl font-semibold mt-2 text-white drop-shadow-md"
         >
-          2026.12.06
+          {displayDateDot}
         </motion.div>
 
         {/* Wedding Invitation */}
@@ -103,4 +110,3 @@ export const WeddingHeroCover: React.FC = () => {
 };
 
 export default WeddingHeroCover;
-

@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
 import {
   bouquetCoupleImg,
   handInHandImg,
   im08_v2Img,
 } from '../../../constants/images.constants';
+import { WEDDING_CONFIG } from '../../../config/wedding.config';
+import { formatMonthDayEnglish } from '../../../utils/calendar.utils';
 
 export const WeddingBentoStorySection: React.FC = () => {
+  const displayMonthDay = useMemo(
+    () => formatMonthDayEnglish(WEDDING_CONFIG.targetDate),
+    []
+  );
+
   return (
     <section className="relative px-4 py-8 bg-white overflow-hidden">
       {/* Top Right Title */}
@@ -81,7 +88,7 @@ export const WeddingBentoStorySection: React.FC = () => {
             className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
           />
         </motion.div>
-        {/* Rotated date 12.06 */}
+        {/* Rotated date (e.g. December 06) */}
         <motion.div
           initial={{ opacity: 0, rotate: 90, scale: 0.7 }}
           whileInView={{ opacity: 1, rotate: 90, scale: 1 }}
@@ -89,7 +96,7 @@ export const WeddingBentoStorySection: React.FC = () => {
           transition={{ type: 'spring', stiffness: 200, damping: 15 }}
           className="whitespace-nowrap text-[17px] font-wedding font-medium text-stone-900 tracking-widest pl-2"
         >
-          December 06
+          {displayMonthDay}
         </motion.div>
       </div>
     </section>
@@ -97,4 +104,3 @@ export const WeddingBentoStorySection: React.FC = () => {
 };
 
 export default WeddingBentoStorySection;
-

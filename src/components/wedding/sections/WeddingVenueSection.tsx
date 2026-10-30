@@ -36,23 +36,32 @@ export const WeddingVenueSection: React.FC = () => {
         transition={{ duration: 0.85 }}
         className="w-full h-[250px] rounded-xl overflow-hidden shadow border border-stone-200 relative"
       >
-        <iframe
-          title="Địa điểm tiệc cưới"
-          width="100%"
-          height="100%"
-          frameBorder="0"
-          src={WEDDING_VENUE.mapEmbedUrl}
-          allowFullScreen
-        />
-        <a
-          href={WEDDING_VENUE.mapExternalUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute top-2 left-2 bg-white/90 px-3 py-1.5 rounded shadow text-xs font-semibold text-blue-600 flex items-center gap-1 hover:bg-white transition-colors"
-        >
-          <span>Maps</span>
-          <ExternalLink className="w-3.5 h-3.5" />
-        </a>
+        {WEDDING_VENUE.mapEmbedUrl ? (
+          <iframe
+            title="Địa điểm tiệc cưới"
+            width="100%"
+            height="100%"
+            frameBorder="0"
+            src={WEDDING_VENUE.mapEmbedUrl}
+            allowFullScreen
+          />
+        ) : (
+          <div className="w-full h-full flex flex-col items-center justify-center bg-stone-100 text-stone-400 p-4 text-center">
+            <span className="text-sm font-medium">[Bản đồ đang được cập nhật]</span>
+          </div>
+        )}
+
+        {WEDDING_VENUE.mapExternalUrl ? (
+          <a
+            href={WEDDING_VENUE.mapExternalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute top-2 left-2 bg-white/90 px-3 py-1.5 rounded shadow text-xs font-semibold text-blue-600 flex items-center gap-1 hover:bg-white transition-colors"
+          >
+            <span>Maps</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        ) : null}
       </motion.div>
 
       <div className="text-center py-2">
@@ -133,4 +142,3 @@ export const WeddingVenueSection: React.FC = () => {
 };
 
 export default WeddingVenueSection;
-

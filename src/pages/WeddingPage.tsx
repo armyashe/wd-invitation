@@ -3,7 +3,6 @@ import { PhoneFrame } from '../components/layout/PhoneFrame';
 import { WeddingPetalsCanvas } from '../components/common/WeddingPetalsCanvas';
 import { ScrollToTopButton } from '../components/common/ScrollToTopButton';
 import { FloatingControls } from '../components/wedding/FloatingControls';
-import { WeddingGiftModal } from '../components/wedding/WeddingGiftModal';
 import {
   WeddingHeroCover,
   WeddingLoveStoryBanner,
@@ -19,19 +18,25 @@ import {
 } from '../components/wedding/sections';
 import { useAudioPlayer, useCountdown, useScrollTop, useClipboard } from '../hooks';
 import { WEDDING_AUDIO_URL } from '../constants/images.constants';
-import { groomBank, brideBank } from '../constants/bank.constants';
+import { weddingBank } from '../constants/bank.constants';
 import { WEDDING_CONFIG, WEDDING_COUPLE } from '../config/wedding.config';
 import type { WeddingPageProps } from '../types/wedding.types';
 
 export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
   const [showPetals, setShowPetals] = useState(true);
-  const [showGiftModal, setShowGiftModal] = useState(false);
 
-  // Custom hooks for cleanly separated concerns
+  // Custom hooks
   const { audioRef, isPlayingMusic, toggleMusic } = useAudioPlayer();
   const { showScrollTop, scrollToTop } = useScrollTop();
   const { copySuccess, copy } = useClipboard();
   const timeLeft = useCountdown(WEDDING_CONFIG.targetDate);
+
+  // Xác định vai trò và tên người nhận quà mừng từ cấu hình Vercel
+  const isBride = weddingBank.recipient === 'bride';
+  const recipientRole = isBride ? 'Cô dâu' : 'Chú rể';
+  const recipientName = isBride
+    ? WEDDING_COUPLE.bride.fullName
+    : WEDDING_COUPLE.groom.fullName;
 
   return (
     <div className="min-h-screen bg-[#F0F2F5] text-stone-900 font-sans relative selection:bg-rose-200 selection:text-rose-900">
@@ -61,7 +66,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
         {/* Section 3: Tâm sự ngày cưới */}
         <WeddingMessageSection />
 
-        {/* Section 4: Bento Photos Story & December 06 */}
+        {/* Section 4: Bento Photos Story */}
         <WeddingBentoStorySection />
 
         {/* Section 5: Song Hỷ & Deep Embrace */}
@@ -79,27 +84,18 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
         {/* Section 9: Wedding Venue Venus Luxury & Map & Sunshine Photo */}
         <WeddingVenueSection />
 
-        {/* Section 10: Hộp quà mừng (Chú rể) */}
+        {/* Section 10: Hộp quà mừng duy nhất theo cấu hình Vercel Project */}
         <WeddingGiftSection
-          groomBank={groomBank}
-          groomName={WEDDING_COUPLE.groom.fullName}
-          isCopied={copySuccess === 'groom'}
-          onCopy={() => void copy(groomBank.accountNumber, 'groom')}
+          bank={weddingBank}
+          role={recipientRole}
+          name={recipientName}
+          isCopied={copySuccess === 'bank'}
+          onCopy={() => void copy(weddingBank.accountNumber, 'bank')}
         />
 
         {/* Section 11: Footer Thank You */}
         <WeddingFooterSection />
       </PhoneFrame>
-
-      {/* Modal: Gift / QR Banking (Cô dâu) */}
-      <WeddingGiftModal
-        isOpen={showGiftModal}
-        onClose={() => setShowGiftModal(false)}
-        brideBank={brideBank}
-        brideName={WEDDING_COUPLE.bride.modalName}
-        isCopied={copySuccess === 'bride'}
-        onCopy={() => void copy(brideBank.accountNumber, 'bride')}
-      />
 
       {/* Floating Scroll to Top button */}
       <ScrollToTopButton show={showScrollTop} onClick={scrollToTop} />
@@ -108,4 +104,3 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
 };
 
 export default WeddingPage;
-

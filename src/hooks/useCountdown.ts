@@ -10,7 +10,9 @@ export function useCountdown(targetDateStr: string): TimeLeft {
   });
 
   useEffect(() => {
+    if (!targetDateStr) return;
     const weddingTarget = new Date(targetDateStr).getTime();
+    if (isNaN(weddingTarget)) return;
 
     const updateCountdown = () => {
       const now = Date.now();
@@ -31,4 +33,3 @@ export function useCountdown(targetDateStr: string): TimeLeft {
 
   return timeLeft;
 }
-
