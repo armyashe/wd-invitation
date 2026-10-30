@@ -8,31 +8,45 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { WeddingPetalsCanvas } from './WeddingPetalsCanvas';
+import { getImageUrl, getWeddingAssetUrl } from '../utils/supabase';
 
-// Fallback images
-import heroLiftImg from '../assets/images/IM01.jpg';
-import bouquetCoupleImg from '../assets/images/IM02.jpg';
-import handInHandImg from '../assets/images/IM03.jpg';
-import im03_v2Img from '../assets/images/IM03-v2.jpg';
-import im04_v2Img from '../assets/images/IM04-v2.jpg';
-import im04Img from '../assets/images/IM04.jpg';
-import im05Img from '../assets/images/IM05.jpg';
-import im06Img from '../assets/images/IM06.jpg';
-import im07Img from '../assets/images/IM07.jpg';
-import im08Img from '../assets/images/IM08.jpg';
-import im08_v2Img from '../assets/images/IM08-v2.jpg';
-import im09Img from '../assets/images/IM09.jpg';
-import im10Img from '../assets/images/IM10.jpg';
-import im11Img from '../assets/images/IM11.jpg';
-import im12Img from '../assets/images/IM12.jpg';
-import im13Img from '../assets/images/IM13.jpg';
-import im14Img from '../assets/images/IM14.jpg';
-import im15Img from '../assets/images/IM15.jpg';
-// import im16Img from '../assets/images/IM16.jpg';
-import im16_v2Img from '../assets/images/IM16-v2.jpg';
-import im17Img from '../assets/images/IM17.jpg';
-import qrImg from '../assets/images/QR-grom.jpg';
-import AudioPlayer from '../assets/music-vay-cuoi-erik.mp3';
+// Supabase Storage assets
+const AudioPlayer = getWeddingAssetUrl('music-vay-cuoi-erik.mp3');
+const heroLiftImg = getImageUrl('IM01.jpg');
+const bouquetCoupleImg = getImageUrl('IM02.jpg');
+const handInHandImg = getImageUrl('IM03.jpg');
+const im03_v2Img = getImageUrl('IM03-v2.jpg');
+const im04_v2Img = getImageUrl('IM04-v2.jpg');
+const im04Img = getImageUrl('IM04.jpg');
+const im05Img = getImageUrl('IM05.jpg');
+const im06Img = getImageUrl('IM06.jpg');
+const im07Img = getImageUrl('IM07.jpg');
+const im08Img = getImageUrl('IM08.jpg');
+const im08_v2Img = getImageUrl('IM08-v2.jpg');
+const im09Img = getImageUrl('IM09.jpg');
+const im10Img = getImageUrl('IM10.jpg');
+const im11Img = getImageUrl('IM11.jpg');
+const im12Img = getImageUrl('IM12.jpg');
+const im13Img = getImageUrl('IM13.jpg');
+const im14Img = getImageUrl('IM14.jpg');
+const im15Img = getImageUrl('IM15.jpg');
+const im16_v2Img = getImageUrl('IM16-v2.jpg');
+const im17Img = getImageUrl('IM17.jpg');
+
+// Bank & QR Configuration from Environment Variables
+const groomBank = {
+  bankName: import.meta.env.VITE_GROOM_BANK_NAME || '',
+  accountNumber: import.meta.env.VITE_GROOM_ACCOUNT_NUMBER || '',
+  accountHolder: import.meta.env.VITE_GROOM_ACCOUNT_HOLDER || '',
+  qrUrl: import.meta.env.VITE_GROOM_QR_URL || getImageUrl('QR-grom.jpg'),
+};
+
+const brideBank = {
+  bankName: import.meta.env.VITE_BRIDE_BANK_NAME || '',
+  accountNumber: import.meta.env.VITE_BRIDE_ACCOUNT_NUMBER || '',
+  accountHolder: import.meta.env.VITE_BRIDE_ACCOUNT_HOLDER || '',
+  qrUrl: import.meta.env.VITE_BRIDE_QR_URL || '',
+};
 
 // Preloaded wedding gallery
 // Wedding Configuration
@@ -103,11 +117,10 @@ const CalendarQrCard: React.FC<CalendarQrCardProps> = ({
         <button
           type="button"
           onClick={onCopy}
-          className={`text-xs px-2.5 py-0.5 rounded-md font-medium transition active:scale-95 border shrink-0 ${
-            copySuccess
+          className={`text-xs px-2.5 py-0.5 rounded-md font-medium transition active:scale-95 border shrink-0 ${copySuccess
               ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
               : 'bg-[#fff1f2] text-[#be123c] border-[#fecdd3] hover:bg-rose-100'
-          }`}
+            }`}
         >
           {copySuccess ? 'Đã sao chép' : 'Sao chép'}
         </button>
@@ -867,9 +880,8 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 {WEEKDAYS.map((dow) => (
                   <div
                     key={dow}
-                    className={`py-1 text-xs font-semibold tracking-wider ${
-                      dow === 'CN' ? 'text-rose-300 font-bold' : 'text-white/80'
-                    }`}
+                    className={`py-1 text-xs font-semibold tracking-wider ${dow === 'CN' ? 'text-rose-300 font-bold' : 'text-white/80'
+                      }`}
                   >
                     {dow}
                   </div>
@@ -1143,7 +1155,7 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 transition={{ duration: 0.85, delay: 0.2 }}
                 className="font-script text-[52px] text-white drop-shadow-lg block leading-tight"
               >
-                We’re meant to 
+                We’re meant to
               </motion.span>
               <motion.span
                 initial={{ opacity: 0, y: 25 }}
@@ -1152,35 +1164,35 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
                 transition={{ duration: 0.85, delay: 0.3 }}
                 className="font-script text-[50px] text-white drop-shadow-lg block leading-tight -mt-4"
               >
-                be together 
+                be together
               </motion.span>
             </div>
           </motion.div>
         </section>
 
-            {/* SECTION: HỘP QUÀ MỪNG (THE CALENDAR FRAME QR CODE SECTION) */}
-            <section id="hop-qua-mung" className="py-8 px-6 bg-gradient-to-b from-white via-rose-50/40 to-white text-center border-t border-slate-100">
-              {/* Pill badge from Image 2 */}
-              <div className="inline-block bg-[#5e2229] text-white px-7 py-2 rounded-full font-medium text-xs sm:text-sm tracking-widest uppercase shadow-md mb-2">
-                Hộp quà mừng
-              </div>
+        {/* SECTION: HỘP QUÀ MỪNG (THE CALENDAR FRAME QR CODE SECTION) */}
+        <section id="hop-qua-mung" className="py-8 px-6 bg-gradient-to-b from-white via-rose-50/40 to-white text-center border-t border-slate-100">
+          {/* Pill badge from Image 2 */}
+          <div className="inline-block bg-[#5e2229] text-white px-7 py-2 rounded-full font-medium text-xs sm:text-sm tracking-widest uppercase shadow-md mb-2">
+            Hộp quà mừng
+          </div>
 
-              <p className="text-xs text-slate-500 py-2 mb-6 max-w-xs mx-auto">
-                Cảm ơn tình cảm và sự chúc phúc chân thành từ bạn dành cho ngày vui của chúng mình!
-              </p>
+          <p className="text-xs text-slate-500 py-2 mb-6 max-w-xs mx-auto">
+            Cảm ơn tình cảm và sự chúc phúc chân thành từ bạn dành cho ngày vui của chúng mình!
+          </p>
 
-              {/* Calendar Style Frame with QR code (from Image 1 & 2) */}
-              <CalendarQrCard
-                role="Chú rể"
-                name="Nhật Long"
-                bankName="Sacombank"
-                accountNumber="060139264919"
-                accountHolder="LE NHAT LONG"
-                qrUrl={qrImg}
-                copySuccess={copySuccess === 'bride'}
-                onCopy={() => copyToClipboard('060139264919', 'bride')}
-              />
-            </section>
+          {/* Calendar Style Frame with QR code (from Image 1 & 2) */}
+          <CalendarQrCard
+            role="Chú rể"
+            name="Nhật Long"
+            bankName={groomBank.bankName}
+            accountNumber={groomBank.accountNumber}
+            accountHolder={groomBank.accountHolder}
+            qrUrl={groomBank.qrUrl}
+            copySuccess={copySuccess === 'groom'}
+            onCopy={() => copyToClipboard(groomBank.accountNumber, 'groom')}
+          />
+        </section>
 
         {/* ----------------- FOOTER: THANK YOU ----------------- */}
         <footer
@@ -1220,44 +1232,44 @@ export const WeddingPage: React.FC<WeddingPageProps> = ({ onBackToTech }) => {
 
       </div>
 
-        {/* MODAL: GIFT / QR BANKING */}
-        {showGiftModal && (
-          <div 
-            onClick={() => setShowGiftModal(false)}
-            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+      {/* MODAL: GIFT / QR BANKING */}
+      {showGiftModal && (
+        <div
+          onClick={() => setShowGiftModal(false)}
+          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center animate-fade-rise max-h-[92vh] overflow-y-auto"
           >
-            <div 
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl text-center animate-fade-rise max-h-[92vh] overflow-y-auto"
-            >
-              <div className="inline-block bg-[#5e2229] text-white px-6 py-1.5 rounded-full font-medium text-xs tracking-widest uppercase shadow-md mb-2">
-                Hộp quà mừng
-              </div>
-
-              {/* Calendar Qr Card in Modal */}
-              <div className="mt-4">
-                <CalendarQrCard
-                  role="Cô dâu"
-                  name="Thuỳ Linh"
-                  bankName="Vietcombank"
-                  accountNumber="1012345678"
-                  accountHolder="HOANG THUY LINH"
-                  qrUrl="https://img.vietqr.io/image/VCB-1012345678-compact2.png?amount=0&addInfo=Mung%20cuoi%20Thuy%20Linh&accountName=HOANG%20THUY%20LINH"
-                  copySuccess={copySuccess === 'bride'}
-                  onCopy={() => copyToClipboard('1012345678', 'bride')}
-                />
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setShowGiftModal(false)}
-                className="mt-6 w-full py-2.5 bg-slate-800 text-white rounded-xl text-xs font-semibold hover:bg-slate-900 transition active:scale-98"
-              >
-                Đóng
-              </button>
+            <div className="inline-block bg-[#5e2229] text-white px-6 py-1.5 rounded-full font-medium text-xs tracking-widest uppercase shadow-md mb-2">
+              Hộp quà mừng
             </div>
+
+            {/* Calendar Qr Card in Modal */}
+            <div className="mt-4">
+              <CalendarQrCard
+                role="Cô dâu"
+                name="Thuỳ Linh"
+                bankName={brideBank.bankName}
+                accountNumber={brideBank.accountNumber}
+                accountHolder={brideBank.accountHolder}
+                qrUrl={brideBank.qrUrl}
+                copySuccess={copySuccess === 'bride'}
+                onCopy={() => copyToClipboard(brideBank.accountNumber, 'bride')}
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowGiftModal(false)}
+              className="mt-6 w-full py-2.5 bg-slate-800 text-white rounded-xl text-xs font-semibold hover:bg-slate-900 transition active:scale-98"
+            >
+              Đóng
+            </button>
           </div>
-        )}
+        </div>
+      )}
 
       {/* Floating "Scroll to top" button when scrolled down */}
       <AnimatePresence>

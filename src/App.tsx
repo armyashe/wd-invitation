@@ -1,9 +1,39 @@
 import { useEffect, useRef, useState } from 'react';
 import WeddingPage from './components/WeddingPage';
+import { supabase } from './utils/supabase';
+
+type Todo = {
+  id: number | string;
+  name: string;
+};
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'hero' | 'wedding'>('hero');
+  const [todos, setTodos] = useState<Todo[]>([]);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function getTodos() {
+      const { data, error } = await supabase.from('todos').select('id, name');
+
+      if (error) {
+        console.error('Unable to load todos from Supabase:', error.message);
+        return;
+      }
+
+      if (isMounted) {
+        setTodos(data ?? []);
+      }
+    }
+
+    void getTodos();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (currentPage !== 'hero') return;
@@ -74,12 +104,27 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
+  // Keep the sample query wired up without changing the existing wedding design.
+  const todoList = (
+    <ul hidden>
+      {todos.map((todo) => (
+        <li key={todo.id}>{todo.name}</li>
+      ))}
+    </ul>
+  );
+
   if (currentPage === 'wedding') {
-    return <WeddingPage onBackToTech={handleBackToHero} />;
+    return (
+      <>
+        <WeddingPage onBackToTech={handleBackToHero} />
+        {todoList}
+      </>
+    );
   }
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white text-black font-sans selection:bg-black selection:text-white">
+      {todoList}
       {/* Background Video Layer (z-0) */}
       <div
         className="absolute w-full z-0 pointer-events-none"
