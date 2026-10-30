@@ -4,6 +4,7 @@ import type { BankRecipient } from '../types/bank.types';
 function validateEnvironment(): void {
   const missingWeddingVars: string[] = [];
   const missingBankVars: string[] = [];
+  const missingCoupleVars: string[] = [];
 
   // Kiểm tra biến sự kiện cưới
   if (!import.meta.env.VITE_WEDDING_TARGET_DATE) missingWeddingVars.push('VITE_WEDDING_TARGET_DATE');
@@ -17,6 +18,12 @@ function validateEnvironment(): void {
   if (!import.meta.env.VITE_BANK_ACCOUNT_NUMBER) missingBankVars.push('VITE_BANK_ACCOUNT_NUMBER');
   if (!import.meta.env.VITE_BANK_ACCOUNT_HOLDER) missingBankVars.push('VITE_BANK_ACCOUNT_HOLDER');
   if (!import.meta.env.VITE_BANK_QR_URL) missingBankVars.push('VITE_BANK_QR_URL');
+
+  // Kiểm tra biến thông tin cô dâu và chú rể
+  if (!import.meta.env.VITE_GROOM_FULL_NAME) missingCoupleVars.push('VITE_GROOM_FULL_NAME');
+  if (!import.meta.env.VITE_GROOM_SHORT_NAME) missingCoupleVars.push('VITE_GROOM_SHORT_NAME');
+  if (!import.meta.env.VITE_BRIDE_FULL_NAME) missingCoupleVars.push('VITE_BRIDE_FULL_NAME');
+  if (!import.meta.env.VITE_BRIDE_SHORT_NAME) missingCoupleVars.push('VITE_BRIDE_SHORT_NAME');
 
   if (missingWeddingVars.length > 0) {
     console.error(
@@ -33,6 +40,14 @@ function validateEnvironment(): void {
       )}.\nVui lòng thiết lập trong .env.local hoặc Vercel Project Environment Variables để hiển thị chính xác thông tin chuyển khoản.`
     );
   }
+
+  if (missingCoupleVars.length > 0) {
+    console.error(
+      `[CoupleConfig Error] Thiếu các biến môi trường cấu hình tên cô dâu & chú rể: ${missingCoupleVars.join(
+        ', '
+      )}.\nVui lòng thiết lập trong .env.local hoặc Vercel Project Environment Variables.`
+    );
+  }
 }
 
 validateEnvironment();
@@ -41,6 +56,18 @@ const rawRecipient = (import.meta.env.VITE_BANK_RECIPIENT || 'groom').trim().toL
 const bankRecipient: BankRecipient = rawRecipient === 'bride' ? 'bride' : 'groom';
 
 export const envConfig = {
+  // Cấu hình thông tin cô dâu và chú rể
+  couple: {
+    groom: {
+      fullName: import.meta.env.VITE_GROOM_FULL_NAME || '',
+      shortName: import.meta.env.VITE_GROOM_SHORT_NAME || '',
+    },
+    bride: {
+      fullName: import.meta.env.VITE_BRIDE_FULL_NAME || '',
+      shortName: import.meta.env.VITE_BRIDE_SHORT_NAME || '',
+    },
+  },
+
   // Cấu hình sự kiện cưới thống nhất (được cấu hình riêng biệt trên từng Vercel Project)
   wedding: {
     targetDate: import.meta.env.VITE_WEDDING_TARGET_DATE || '',

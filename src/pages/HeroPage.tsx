@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useVideoFade } from '../hooks/useVideoFade';
 import { HERO_VIDEO_URL } from '../constants/images.constants';
+import { WEDDING_COUPLE } from '../config/wedding.config';
 
 interface HeroPageProps {
   onOpenInvitation: () => void;
@@ -8,6 +9,13 @@ interface HeroPageProps {
 
 export const HeroPage: React.FC<HeroPageProps> = ({ onOpenInvitation }) => {
   const videoRef = useVideoFade(true);
+
+  // Logo monogram initials derived from couple names
+  const coupleInitials = useMemo(() => {
+    const groomInitial = WEDDING_COUPLE.groom.shortName.charAt(0) || 'L';
+    const brideInitial = WEDDING_COUPLE.bride.shortName.charAt(0) || 'N';
+    return `${groomInitial} & ${brideInitial}`;
+  }, []);
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-white text-black font-sans selection:bg-black selection:text-white">
@@ -42,7 +50,7 @@ export const HeroPage: React.FC<HeroPageProps> = ({ onOpenInvitation }) => {
             href="#"
             className="text-3xl tracking-tight font-serif text-[#000000] hover:opacity-85 transition-opacity"
           >
-            L&amp;N
+            {coupleInitials}
           </a>
         </nav>
       </header>

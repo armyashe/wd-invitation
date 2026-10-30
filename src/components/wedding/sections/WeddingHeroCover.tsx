@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
 import { heroLiftImg, im05Img } from '../../../constants/images.constants';
-import { WEDDING_CONFIG } from '../../../config/wedding.config';
+import { WEDDING_CONFIG, WEDDING_COUPLE } from '../../../config/wedding.config';
 import { formatDateDot } from '../../../utils/calendar.utils';
 
 export const WeddingHeroCover: React.FC = () => {
@@ -20,7 +20,7 @@ export const WeddingHeroCover: React.FC = () => {
         onError={(e) => {
           (e.currentTarget as HTMLImageElement).src = heroLiftImg;
         }}
-        alt="Nhật Long & Nguyễn Ngân"
+        alt={`${WEDDING_COUPLE.groom.fullName} & ${WEDDING_COUPLE.bride.fullName}`}
         className="absolute inset-0 w-full h-full object-cover object-top"
       />
       <div className="absolute inset-0 bg-black/25 pointer-events-none" />
@@ -67,7 +67,7 @@ export const WeddingHeroCover: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-2xl sm:text-3xl font-great-vibes border-b border-white/50 pb-1 text-white drop-shadow-md"
           >
-            Nhật Long
+            {WEDDING_COUPLE.groom.fullName}
           </motion.div>
           <motion.div
             initial={{ scale: 0.6, rotate: -20, opacity: 0 }}
@@ -85,7 +85,7 @@ export const WeddingHeroCover: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="text-2xl sm:text-3xl font-great-vibes border-b border-white/50 pb-1 text-white drop-shadow-md"
           >
-            Nguyễn Ngân
+            {WEDDING_COUPLE.bride.fullName}
           </motion.div>
         </div>
 

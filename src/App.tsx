@@ -2,11 +2,20 @@ import { useEffect, useState, useCallback } from 'react';
 import { HeroPage } from './pages/HeroPage';
 import { WeddingPage } from './pages/WeddingPage';
 import { supabase } from './services/supabase.service';
+import { WEDDING_COUPLE } from './config/wedding.config';
 import type { Todo } from './types/supabase.types';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'hero' | 'wedding'>('hero');
   const [todos, setTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    if (WEDDING_COUPLE.groom.shortName && WEDDING_COUPLE.bride.shortName) {
+      const gInit = WEDDING_COUPLE.groom.shortName.charAt(0);
+      const bInit = WEDDING_COUPLE.bride.shortName.charAt(0);
+      document.title = `${gInit}&${bInit} — The Journey of Love, We Begin Together`;
+    }
+  }, []);
 
   useEffect(() => {
     let isMounted = true;

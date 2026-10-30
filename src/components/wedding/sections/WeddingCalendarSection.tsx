@@ -3,7 +3,7 @@ import { Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 import { bouquetCoupleImg, im16_v2Img } from '../../../constants/images.constants';
 import { WEEKDAYS } from '../../../constants/calendar.constants';
-import { WEDDING_CONFIG } from '../../../config/wedding.config';
+import { WEDDING_CONFIG, WEDDING_COUPLE } from '../../../config/wedding.config';
 import {
   getDaysInMonth,
   getFirstDayOfWeek,
@@ -16,6 +16,12 @@ interface WeddingCalendarSectionProps {
 }
 
 export const WeddingCalendarSection: React.FC<WeddingCalendarSectionProps> = ({ timeLeft }) => {
+  const coupleInitials = useMemo(() => {
+    const groomInitial = WEDDING_COUPLE.groom.shortName.charAt(0) || 'L';
+    const brideInitial = WEDDING_COUPLE.bride.shortName.charAt(0) || 'N';
+    return `${groomInitial}&${brideInitial}`;
+  }, []);
+
   const { weddingDate, isValidDate } = useMemo(() => {
     if (!WEDDING_CONFIG.targetDate) {
       return { weddingDate: new Date('1970-01-01T00:00:00'), isValidDate: false };
@@ -70,7 +76,7 @@ export const WeddingCalendarSection: React.FC<WeddingCalendarSectionProps> = ({ 
           transition={{ duration: 0.7 }}
           className="absolute top-4 left-4 right-4 flex items-center justify-between text-white text-base font-wedding tracking-wider drop-shadow-md"
         >
-          <span className="font-bold">L&amp;N</span>
+          <span className="font-bold">{coupleInitials}</span>
           <span className="font-semibold">{monthYearEnglish}</span>
           <span className="font-bold">FALL IN</span>
           <span className="font-bold">LOVE</span>

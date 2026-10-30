@@ -18,14 +18,14 @@ export const WEDDING_VENUE: WeddingVenue = {
   mapExternalUrl: envConfig.venue.mapExternalUrl,
 };
 
-// Nguồn dữ liệu duy nhất cho tên Cô dâu và Chú rể
+// Nguồn dữ liệu duy nhất cho tên Cô dâu và Chú rể (lấy từ envConfig)
 export const WEDDING_COUPLE: WeddingCouple = {
   groom: {
-    fullName: 'Nhật Long',
-    shortName: 'Long',
+    fullName: envConfig.couple.groom.fullName,
+    shortName: envConfig.couple.groom.shortName,
   },
   bride: {
-    fullName: 'Nguyễn Ngân',
-    shortName: 'Ngân',
+    fullName: envConfig.couple.bride.fullName,
+    shortName: envConfig.couple.bride.shortName,
   },
 };
