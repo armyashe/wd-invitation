@@ -26,3 +26,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# AI Agent skills
+.agents/
+.serena/
+skills-lock.json
