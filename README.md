@@ -1,32 +1,100 @@
-# React + TypeScript + Vite
+# Wedding Invitation Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A modern, responsive, and elegant digital wedding invitation built with **React 19**, **TypeScript**, **Tailwind CSS**, **Framer Motion**, and **Vite**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Project Structure
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```text
+wedding/
+├── public/                      # Static assets
+├── src/
+│   ├── assets/                  # Media files (audio, images)
+│   │   ├── audio/
+│   │   └── images/
+│   ├── components/              # UI components
+│   │   ├── common/              # Shared reusable components
+│   │   │   ├── AudioPlayer.tsx
+│   │   │   ├── ScrollToTopButton.tsx
+│   │   │   └── WeddingPetalsCanvas.tsx
+│   │   ├── layout/              # Layout containers
+│   │   │   └── PhoneFrame.tsx
+│   │   └── wedding/             # Wedding components
+│   │       ├── sections/        # Modular invitation sections
+│   │       │   ├── WeddingHeroCover.tsx
+│   │       │   ├── WeddingLoveStoryBanner.tsx
+│   │       │   ├── WeddingMessageSection.tsx
+│   │       │   ├── WeddingBentoStorySection.tsx
+│   │       │   ├── WeddingFallInLoveSection.tsx
+│   │       │   ├── WeddingStoryGridSection.tsx
+│   │       │   ├── WeddingCalendarSection.tsx
+│   │       │   ├── WeddingCloudsPoemSection.tsx
+│   │       │   ├── WeddingVenueSection.tsx
+│   │       │   ├── WeddingGiftSection.tsx
+│   │       │   └── WeddingFooterSection.tsx
+│   │       ├── CalendarQrCard.tsx
+│   │       └── FloatingControls.tsx
+│   ├── config/                  # App & event configurations
+│   │   ├── env.config.ts
+│   │   └── wedding.config.ts
+│   ├── constants/               # Banking data, calendar & asset URLs
+│   │   ├── bank.constants.ts
+│   │   ├── calendar.constants.ts
+│   │   └── images.constants.ts
+│   ├── hooks/                   # Custom React hooks (audio, timer, scroll, copy)
+│   │   ├── useAudioPlayer.ts
+│   │   ├── useClipboard.ts
+│   │   ├── useCountdown.ts
+│   │   ├── useScrollTop.ts
+│   │   └── useVideoFade.ts
+│   ├── pages/                   # Main page views (Hero & Wedding)
+│   │   ├── HeroPage.tsx
+│   │   └── WeddingPage.tsx
+│   ├── services/                # Supabase client & storage service
+│   │   └── supabase.service.ts
+│   ├── styles/                  # Fonts & theme animations
+│   │   ├── fonts.css
+│   │   └── theme.css
+│   ├── types/                   # TypeScript interfaces & definitions
+│   │   ├── bank.types.ts
+│   │   ├── countdown.types.ts
+│   │   ├── supabase.types.ts
+│   │   └── wedding.types.ts
+│   ├── utils/                   # Helper functions (calendar, clipboard)
+│   │   ├── calendar.utils.ts
+│   │   ├── clipboard.utils.ts
+│   │   └── supabase.ts
+│   ├── App.tsx                  # Root router & view controller
+│   ├── index.css
+│   └── main.tsx
+├── .env.example
+├── index.html
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+└── vite.config.ts
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+---
+
+## Key Features
+
+- **Mobile-First Responsive Layout**: Optimized for mobile with a 500px phone frame on desktop.
+- **Falling Petals Animation**: Dynamic canvas effect reacting to scroll velocity.
+- **Audio Experience**: Background soundtrack with a spinning vinyl control toggle.
+- **Countdown & Smart Calendar**: Live countdown and automated month calendar with pulsing heart badge.
+- **Venue & Google Maps**: Embedded map with direct navigation link.
+- **QR Banking & One-Click Copy**: Instant account copying for gift boxes.
+
+---
+
+## Tech Stack
+
+- **Framework**: [React 19](https://react.dev/)
+- **Build Tool**: [Vite 6](https://vite.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS 3](https://tailwindcss.com/)
+- **Animation**: [Motion (Framer Motion)](https://motion.dev/)
+- **Backend / Storage**: [Supabase](https://supabase.com/)
+- **Linter**: [Oxlint](https://oxc.rs/)
