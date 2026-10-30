@@ -10,6 +10,8 @@ import {
 import { WEDDING_VENUE } from '../../../config/wedding.config';
 
 export const WeddingVenueSection: React.FC = () => {
+  const hasHall = Boolean(WEDDING_VENUE.hall?.trim());
+
   return (
     <section className="px-6 py-6 bg-white space-y-4">
       <motion.p
@@ -69,8 +71,12 @@ export const WeddingVenueSection: React.FC = () => {
           {WEDDING_VENUE.name}
         </h4>
         <p className="text-m font-bold font-wedding text-stone-500 mt-0.5">
-          {WEDDING_VENUE.hall}
-          <br />
+          {hasHall && (
+            <>
+              {WEDDING_VENUE.hall?.trim()}
+              <br />
+            </>
+          )}
           {WEDDING_VENUE.address}
         </p>
       </div>

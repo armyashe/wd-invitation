@@ -73,13 +73,13 @@ export const envConfig = {
     targetDate: import.meta.env.VITE_WEDDING_TARGET_DATE || '',
     title: import.meta.env.VITE_WEDDING_TITLE || '[Chưa cấu hình tiêu đề lễ cưới]',
     dateFormatted: import.meta.env.VITE_WEDDING_DATE_FORMATTED || '[Chưa cấu hình ngày cưới]',
-    lunarText: import.meta.env.VITE_WEDDING_LUNAR_TEXT || '',
+    lunarText: (import.meta.env.VITE_WEDDING_LUNAR_TEXT || '').trim(),
   },
 
   // Địa điểm tổ chức & bản đồ
   venue: {
     name: import.meta.env.VITE_WEDDING_VENUE_NAME || '[Chưa cấu hình tên địa điểm]',
-    hall: import.meta.env.VITE_WEDDING_VENUE_HALL || '',
+    hall: (import.meta.env.VITE_WEDDING_VENUE_HALL || '').trim(),
     address: import.meta.env.VITE_WEDDING_VENUE_ADDRESS || '[Chưa cấu hình địa chỉ]',
     mapEmbedUrl: import.meta.env.VITE_WEDDING_MAP_EMBED_URL || '',
     mapExternalUrl: import.meta.env.VITE_WEDDING_MAP_EXTERNAL_URL || '',

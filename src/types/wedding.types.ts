@@ -1,6 +1,6 @@
 export interface WeddingVenue {
   name: string;
-  hall: string;
+  hall?: string;
   address: string;
   mapEmbedUrl: string;
   mapExternalUrl: string;
